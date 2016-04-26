@@ -1,0 +1,17 @@
+Dobr&yacute; deň {firstname} {lastname},
+
+Objedn&aacute;vka č. {id_order}:
+
+Radi by sme v&aacute;s informovali o vytvoren&iacute; kup&oacute;nu na zľavu na va&scaron;e meno pod č&iacute;slom objedn&aacute;vky {id_order}.
+
+K&oacute;d v&aacute;&scaron;ho kup&oacute;nu: {voucher_num}, v hodnote {voucher_amount}.
+
+Jednoducho skop&iacute;rujte tento k&oacute;d a vložte počas platobn&eacute;ho porcesu pri ďal&scaron;om n&aacute;kupe v na&scaron;om elektronickom obchode.
+
+Ďakujeme za v&aacute;&scaron; n&aacute;kup v obchode {shop_name}.
+
+
+{shop_name} - {shop_url}
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

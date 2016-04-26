@@ -1,0 +1,45 @@
+{firstname} {lastname}, ďakujeme za n&aacute;kup v obchode {shop_name}!
+		
+Detaily objednavky
+
+Objedn&aacute;vka: {order_name} zo dňa {date} 
+Sp&ocirc;sob &uacute;hrady: {payment}
+
+-----------------------
+
+Produkty celkom: {total_products}
+Zľavy / kup&oacute;ny: {total_discounts}
+Darčekov&eacute; balenie: {total_wrapping}
+Po&scaron;tovn&eacute;: {total_shipping}
+Spolu k &uacute;hrade: {total_paid}
+
+-----------------------
+	
+Doručenie
+Doručovateľ: {carrier}
+
+-----------------------
+
+Adresa doručenia:
+{delivery_firstname} {delivery_lastname}
+{delivery_address1}
+{delivery_address2}
+{delivery_postal_code} {delivery_city}
+{delivery_country} {delivery_state}
+
+-----------------------
+
+Fakturačn&aacute; adresa:
+{invoice_firstname} {invoice_lastname}
+{invoice_address1}
+{invoice_address2}
+{invoice_postal_code} {invoice_city}
+{invoice_country} {invoice_state}
+
+-----------------------
+
+T&uacute;to objedn&aacute;vku si m&ocirc;žete prezrieť a vytlačiť fakt&uacute;ru v časti &quot;Moje n&aacute;kupy&quot; vo svojom profile kliknut&iacute;m na &quot;M&ocirc;j &uacute;čet&quot;.
+
+	
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

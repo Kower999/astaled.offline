@@ -1,0 +1,36 @@
+<?php
+
+global $_MODULE;
+$_MODULE = array();
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_8063f7c341dbe2cadc294a530cb1cad2'] = 'Informácie o registrovaných zákazníkoch';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_ff9c34d2829b95a0936b22b409640143'] = 'Zobraziť vlastnosti, ako je pohlavie a vek.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_0df28a79b0b6ee5f2a91da83bb07117c'] = 'Rozdelenie pohlavia Vám umožní určiť, percentuálny podiel mužov a žien medzi Vašimi zákazníkmi.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_998e4c5c80f27dec552e99dfed34889a'] = 'CSV export';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_66ea53c179f966ec08fc4710c60a85be'] = 'Rozsahy veku Vám umožňujú určiť v akom veku sú Vaši zákazníci.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_d053730180bf7c54024068ab2a2edf5c'] = 'Podiely krajín Vám umožnia určiť, z ktorej časti sveta pochádzajú Vaši zákazníci.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_bcfebaf66fa6f885171c63997e2613d5'] = 'Rozdelenie mien Vám umožní určiť, ktoré meny používajú Vaši zákazníci.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_e0c88fe08ea4e9b77760ed2429628dea'] = 'Podiely jazykov Vám umožnia určiť všeobecné jazyky, ktoré používajú zákazníci vo Vašom obchode.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_7a7012cc5c52802b45aed45d1f616f1e'] = 'Žiadny registrovaný zákazník.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_6602bbeb2956c035fb4cb5e844a4861b'] = 'Sprievodca';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_3ca26e413e485538a7f3e610c0324636'] = 'Zacieľte vašu skupinu';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_c8eb1ba430d9ae8fe45fe2d990a481f5'] = 'Ak chcete docieliť aby vaša správa mala ráz, mali by ste vedieť, komu ju adresujete.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_5beafb6329f9718aa46293a7433697e5'] = 'Smerovanie k správnym ľuďom je nevyhnutné pre výber správnych nástrojov na dosiahnutie úspechu.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_e7f94ccd67cb072f87473491d409fe4c'] = 'Najlepšie je obmedziť akcie smerom na skupinu alebo skupiny klientov.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_f94c9050d83dfc68894175207b330785'] = 'Informácie o registrovaných zákazníkoch Vám umožnia presnejšie definovať profil typického zákazníka, tak že budete môcť prispôsobiť zaujímavé produkty rôznym kritériám.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_72d2596650eeec0e4f630dd8841eb21e'] = 'Mali by ste použiť tieto informácie na zvýšenie Vašich predajov';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_325004e2f6f72a36519c6a79bd59de74'] = 'spustením reklamných kampaní adresovaných vymedzenému okruhu zákazníkov, ktorí sa môžu zaujímať o určitú ponuku v určitom období.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_7878438ad0cb68d43646e19bf8cda504'] = 'Nakontaktovaním skupiny zákazníkov prostredníctvom e-mailu / zaslania noviniek.';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_8dc514f6da8c696c4a522efc145ad28a'] = 'Rozdelenie podľa pohlavia';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_63889cfb9d3cbe05d1bd2be5cc9953fd'] = 'Muž';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_b719ce180ec7bd9641fece2f920f4817'] = 'Žena';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_88183b946cc5f0e8c96b2e66e1c74a7e'] = 'Neurčené';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_0e8cb607499d7862540d5736f6ab84e3'] = 'Vekové rozsahy';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_306fb378f025305fd17ec219fb193797'] = '0-18 rokov';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_95ad6a8434399a1020f496ae093394a1'] = '19-24 rokov';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_fb0d334f12a24f10715baef863e20db7'] = '25-34 rokov';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_268750725a2f1cba57267447006d22ef'] = '35-49 rokov';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_31974086ef82d676924acbb48fc3de1e'] = '50-59 rokov';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_e7f407fa37f8cd8c5900329882ad4529'] = '60 rokov a viac';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_73b0130037e21b76351aebfd29d0b9aa'] = 'Rozdelenie podľa krajiny';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_28e81c8343702f6c813cc31a7f90616a'] = 'Rozdelenie podľa meny';
+$_MODULE['<{statspersonalinfos}prestashop>statspersonalinfos_f1dd68fb6a00d3e4d7f751deacde995d'] = 'Rozdelenie podľa jazyka';

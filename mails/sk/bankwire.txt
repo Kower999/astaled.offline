@@ -1,0 +1,20 @@
+Dobr&yacute; deň {firstname} {lastname},
+
+Objedn&aacute;vka č. {id_order} bola &uacute;spe&scaron;ne vytvoren&aacute; a prijat&aacute;. Objedn&aacute;vka bude expedovan&aacute; v čo najkrat&scaron;om čase od prijatia platby.
+
+Pri objedn&aacute;van&iacute; ste si vybrali sp&ocirc;sob platby bankov&yacute;m prevodom. Vykonajte preto pros&iacute;m platbu prevodom na &uacute;čet:
+
+{bankwire_owner}
+{bankwire_details}
+Suma za objedn&aacute;vku: {total_paid}
+
+
+T&uacute;to objedn&aacute;vku si m&ocirc;žete prezrieť a vytlačiť fakt&uacute;ru v časti &quot;Moje n&aacute;kupy&quot; vo svojom profile kliknut&iacute;m na &quot;M&ocirc;j &uacute;čet&quot;.
+
+Ďakujeme za v&aacute;&scaron; n&aacute;kup v obchode {shop_name}.
+
+
+{shop_name} - {shop_url}
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

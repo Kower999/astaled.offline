@@ -1,0 +1,1 @@
+UPDATE new_configuration SET `value` = "3" WHERE `name` = "PS_OS_PAYMENT";

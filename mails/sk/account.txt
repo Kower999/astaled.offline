@@ -1,0 +1,19 @@
+Dobr&yacute; deň {firstname} {lastname},
+
+Ďakujeme, že ste si vytvorili &uacute;čet v elektronickom obchode {shop_name}.
+
+Va&scaron;e prihlasovacie &uacute;daje su nasledovn&eacute;:
+
+E-mailov&aacute; adresa: {email}
+Heslo: {passwd}
+ 
+Odteraz m&ocirc;žete pohodlne nakupovať v na&scaron;om obchode {shop_url}
+
+Bezpečnostn&eacute; tipy:
+Majte uložen&eacute; &uacute;daje o svojom &uacute;čte na bezpečnom mieste.
+Neposkytujte Va&scaron;e &uacute;daje in&yacute;m osob&aacute;m.
+Pravidelne meňte va&scaron;e heslo.
+Ak si mysl&iacute;te, že niekto zneužil va&scaron;e &uacute;daje, okamžite n&aacute;s kontaktujte a upozornite na t&uacute;to &scaron;kutočnosť.
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

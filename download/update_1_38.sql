@@ -1,0 +1,1 @@
+UPDATE `new_address_format` SET `format`='firstname lastname\r\ncompany\r\naddress1\r\naddress2\r\npostcode city\r\nCountry:name\r\nphone\r\n\r\ndni\r\ndic\r\nvat_number\r\n\r\nother' WHERE (`id_country`='37');

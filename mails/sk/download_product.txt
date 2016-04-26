@@ -1,0 +1,16 @@
+Dobr&yacute; deň {firstname} {lastname}, ďakujeme za n&aacute;kup v obchode {shop_name}.
+
+Stiahnutie produktu/produktov:
+
+K stiahnutiu m&aacute;te {nbProducts} produktov.
+
+Priamy odkaz na stiahnutie produktov:
+{virtualProducts}
+
+
+T&uacute;to objedn&aacute;vku si m&ocirc;žete prezrieť a vytlačiť fakt&uacute;ru v časti &quot;Moje n&aacute;kupy&quot; vo svojom profile kliknut&iacute;m na &quot;M&ocirc;j &uacute;čet&quot;.
+
+Ďakujeme za v&aacute;&scaron; n&aacute;kup v obchode {shop_name}.
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

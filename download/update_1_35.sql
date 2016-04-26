@@ -1,0 +1,1 @@
+UPDATE `new_carrier` SET `active`='0' WHERE (`id_carrier`='4');

@@ -1,0 +1,15 @@
+Dobr&yacute; deň {firstname} {lastname},
+
+Obdržali ste odkaz od z&aacute;kazn&iacute;ka z obchod {shop_name}.
+
+Detail o sprave:
+
+E-mailov&aacute; adresa: {email}
+
+Text spravy:
+
+{message}
+
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

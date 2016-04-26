@@ -1,0 +1,15 @@
+Dobr&yacute; deň {firstname} {lastname},
+
+Objedn&aacute;vka č. {id_order}:
+
+Vyskytol sa probl&eacute;m pri &uacute;hrade va&scaron;ej objedn&aacute;vky č. {id_order}. Čo najsk&ocirc;r n&aacute;s pros&iacute;m kontaktujte.
+
+Va&scaron;a objedn&aacute;vka nebude doručen&aacute;, pokiaľ nebude probl&eacute;m vyrie&scaron;en&yacute;.
+
+T&uacute;to objedn&aacute;vku si m&ocirc;žete prezrieť a vytlačiť fakt&uacute;ru v časti &quot;Moje n&aacute;kupy&quot; vo svojom profile kliknut&iacute;m na &quot;M&ocirc;j &uacute;čet&quot;.
+
+
+{shop_name} - {shop_url}
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

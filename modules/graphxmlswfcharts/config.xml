@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <module>
+            <name>graphxmlswfcharts</name>
+            <displayName><![CDATA[XML/SWF Charts]]></displayName>
+            <version><![CDATA[1]]></version>
+            <description><![CDATA[XML/SWF Charts je v&yacute;konn&yacute; n&aacute;stroj využ&iacute;vaj&uacute;ci Adobe Flash pre vytv&aacute;ranie atrakt&iacute;vnych webov&yacute;ch tabuliek a grafov z dynamick&yacute;ch d&aacute;t.]]></description>
+            <author><![CDATA[PrestaShop]]></author>
+            <tab><![CDATA[administration]]></tab>
+            <is_configurable>0</is_configurable>
+            <need_instance>0</need_instance>
+	<limited_countries></limited_countries>
+        </module>

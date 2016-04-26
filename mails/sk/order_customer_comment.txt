@@ -1,0 +1,11 @@
+Dobr&yacute; deň {firstname} {lastname},
+
+Spr&aacute;va z obchodu {shop_name}:
+
+Obdržali ste novu spr&aacute;vu ohľadom objedn&aacute;vky č. {id_order}:
+
+{message}
+
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

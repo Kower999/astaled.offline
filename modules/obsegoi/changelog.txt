@@ -1,0 +1,16 @@
+*****************************************
+*								CHANGE LOG 
+*								 OBSEGOI 
+*						PRESTASHOP MODULE
+****************************************
+v.1.2
+------
+- Automatically creation of the 'Newsletter check' when importing list, if not existing already
+
+v.1.1
+------
+- Added subscribers synchronization from Egoi to prestashop to complete 360 synchronization
+
+v.1.0
+------
+- First version

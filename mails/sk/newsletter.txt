@@ -1,0 +1,9 @@
+Spravodaj elektronick&eacute;ho obchodu {shop_name}
+
+Text spr&aacute;vy
+
+{message}
+
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

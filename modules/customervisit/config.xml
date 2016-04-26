@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <module>
+            <name>customervisit</name>
+            <displayName><![CDATA[Customer Visit modul]]></displayName>
+            <version><![CDATA[1.0]]></version>
+            <description><![CDATA[Modul pre spravovanie n&aacute;v&scaron;tev z&aacute;kazn&iacute;kov.]]></description>
+            <author><![CDATA[Peter Kovac]]></author>
+            <tab><![CDATA[administration]]></tab>
+	<confirmUninstall>Are you sure you want to delete your details ?</confirmUninstall>
+            <is_configurable>1</is_configurable>
+            <need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+        </module>

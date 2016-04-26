@@ -1,0 +1,13 @@
+Dobr&yacute; deň {firstname} {lastname},
+
+Objedn&aacute;vka č. {id_order}:
+		
+Va&scaron;a objedn&aacute;vka bola zru&scaron;en&aacute;.
+
+T&uacute;to objedn&aacute;vku si m&ocirc;žete prezrieť a vytlačiť fakt&uacute;ru v časti &quot;Moje n&aacute;kupy&quot; vo svojom profile kliknut&iacute;m na &quot;M&ocirc;j &uacute;čet&quot;.
+
+
+{shop_name} - {shop_url}
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

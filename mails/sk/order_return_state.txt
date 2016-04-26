@@ -1,0 +1,11 @@
+Dobr&yacute; deň {firstname} {lastname},
+
+stav va&scaron;ej vr&aacute;tenej objedn&aacute;vky č. {id_order_return} bol zmenen&yacute; na &quot;{state_order_return}&quot;.
+
+T&uacute;to objedn&aacute;vku si m&ocirc;žete prezrieť a vytlačiť fakt&uacute;ru v časti &quot;Moje n&aacute;kupy&quot; vo svojom profile kliknut&iacute;m na &quot;M&ocirc;j &uacute;čet&quot;.
+
+
+{shop_name} - {shop_url}
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

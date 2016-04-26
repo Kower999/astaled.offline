@@ -1,0 +1,15 @@
+Dobr&yacute; deň {firstname} {lastname},
+		
+Objedn&aacute;vka č. {id_order}
+	
+Je n&aacute;m ľ&uacute;to, ale jedna alebo viac položiek va&scaron;ej objedn&aacute;vky č. {id_order} s&uacute; moment&aacute;lne vypredan&eacute;. T&aacute;to skutočnosť m&ocirc;že sp&ocirc;sobiť, že expedovanie z&aacute;sielky sa opozd&iacute;. Pros&iacute;m, prijmite na&scaron;e ospravedlnenie. Objedn&aacute;vka bude vyexpedovan&aacute; okamžite po doplnen&iacute; na&scaron;&iacute;ch skladov&yacute;ch z&aacute;sob.
+
+Ďakujeme za pochopenie.
+
+T&uacute;to objedn&aacute;vku si m&ocirc;žete prezrieť a vytlačiť fakt&uacute;ru v časti &quot;Moje n&aacute;kupy&quot; vo svojom profile kliknut&iacute;m na &quot;M&ocirc;j &uacute;čet&quot;.
+
+
+{shop_name} - {shop_url}
+
+------------------
+{shop_url} je postaven&yacute; na PrestaShop&trade;

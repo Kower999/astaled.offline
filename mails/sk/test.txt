@@ -1,0 +1,3 @@
+Ahoj,
+	
+Toto je testovac&iacute; e-mail z elektronick&eacute;ho obchodu PrestaShop.
