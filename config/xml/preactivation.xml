@@ -1,6 +1,27 @@
 <?xml version="1.0"?>
 <partners>
 <partner>
+	<name><![CDATA[authorizeaim]]></name>
+	<module>authorizeaim</module>
+	<checkconfiguration>
+		<key>NO_CHECK_REQUIRED_YET</key>
+	</checkconfiguration>
+	<logo><![CDATA[https://api.prestashop.com/partner/premium/images/authorizeaim.png]]></logo>
+	<labels>
+		<label iso="en"><![CDATA[Join 400k+ merchants already relying on Authorize.Net for payment processing]]></label>
+		<label iso="fr"><![CDATA[Rejoignez les 400k marchands qui utilisent Authorize.Net pour les paiements en ligne]]></label>
+		<label iso="es"><![CDATA[Únete a los 400k comerciantes que confían en Authorize.Net para recibir pagos en linea]]></label>
+		<label iso="it"><![CDATA[Già 400.000 negozianti hanno scelto Authorize.Net per il pagamento online, provalo anche tu]]></label>
+		<label iso="pt"><![CDATA[Junte-se a 400k+ comerciantes já contando com Authorize.Net para processar pagamentos]]></label>
+		<label iso="de"><![CDATA[Seien Sie einer der >400000 Händler, die Authorize.Net für die Zahlung verwenden]]></label>
+		<label iso="pl"><![CDATA[Tak jak 400 tys. innych sprzedawców zlecaj Authorize.Net przetwarzanie płatności]]></label>
+		<label iso="nl"><![CDATA[Vergezel de 400k+ handelaars die al een beroep doen op Authorize.Net voor de verwerking van betalingen]]></label>
+	</labels>
+	<optionals>
+	</optionals>
+	<descriptions>
+	</descriptions>
+</partner><partner>
 	<name><![CDATA[liveperson]]></name>
 	<module>liveperson</module>
 	<checkconfiguration>
@@ -21,24 +42,5 @@
 	</optionals>
 	<descriptions>
 	</descriptions>
-</partner><partner>
-	<name><![CDATA[Ogone]]></name>
-	<module>ogone</module>
-	<checkconfiguration>
-		<key>OGONE_CONFIGURATION_OK</key>
-	</checkconfiguration>
-	<logo><![CDATA[https://api.prestashop.com/partner/premium/images/ogone.png]]></logo>
-	<labels>
-		<label iso="en"><![CDATA[Speed up your international sales by offering local payment methods]]></label>
-		<label iso="fr"><![CDATA[Accélérez vos ventes à l’international en offrant les moyens de paiement locaux]]></label>
-		<label iso="es"><![CDATA[Acelera el incremento de tus ventas ofreciendo medios de pago locales]]></label>
-		<label iso="de"><![CDATA[Steigern Sie Ihre internationalen Verkäufe durch lokale Zahlmethoden]]></label>
-		<label iso="nl"><![CDATA[Verhoog uw internationale verkoop door lokale betaalmethoden]]></label>
-	</labels>
-	<optionals>
-	</optionals>
-	<descriptions>
-	</descriptions>
 </partner>
-
 </partners>

@@ -5,7 +5,7 @@ if (!defined('_PS_VERSION_'))
 
 class Data extends Module {
     
-    public $classes = array('Provisions','Imports','VIPPrices','PSWebServiceLibrary','Online','MnozstvoSkladom','StockUpdate','ImportovaneVydajky');
+    public $classes = array('Provisions','Imports','VIPPrices','PSWebServiceLibrary','Online','MnozstvoSkladom','StockUpdate','ImportovaneVydajky','RecyPop');
     
     /**
      * ParentTab => array (
@@ -196,6 +196,13 @@ class Data extends Module {
 			  `ean` varchar(20) NOT NULL,
 			  `imported` int(11)
 			) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
+            
+        $this->tables[_DB_PREFIX_.'product_recypop'] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'product_recypop` (
+            `id_recypop`  int UNSIGNED NOT NULL AUTO_INCREMENT ,
+            `id_product`  int UNSIGNED NULL ,
+            `id_poplatok`  int UNSIGNED NULL ,
+            PRIMARY KEY (`id_recypop`)
+            );';
             
 	}
 
