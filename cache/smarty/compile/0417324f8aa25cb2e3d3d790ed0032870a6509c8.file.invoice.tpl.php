@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2015-06-08 11:23:40
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 23:07:21
          compiled from "C:\wamp\www\themes\default\pdf\invoice.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:47335501810c9abbd4-43115906%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0417324f8aa25cb2e3d3d790ed0032870a6509c8' => 
     array (
       0 => 'C:\\wamp\\www\\themes\\default\\pdf\\invoice.tpl',
-      1 => 1433755417,
+      1 => 1461704254,
       2 => 'file',
     ),
   ),
@@ -57,7 +57,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     .left { text-align: left; }
     .right { text-align: right; }
     .c1 { width: 13%; }
-    .c2 { width: 35%; }
+    .c2 { width: 41%; }
     .c3 { width: 8%; }
     .c4 { width: 8%; }
     .c5 { width: 6%; }
@@ -89,8 +89,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 </td>
 					    <td class="c6 thead center"><?php echo smartyTranslate(array('s'=>'Tax value','pdf'=>'true'),$_smarty_tpl);?>
 </td>
-					    <td class="c7 thead center"><?php echo smartyTranslate(array('s'=>'Discount','pdf'=>'true'),$_smarty_tpl);?>
-</td>
+<!--					    <td class="c7 thead center"><?php echo smartyTranslate(array('s'=>'Discount','pdf'=>'true'),$_smarty_tpl);?>
+</td> -->
 					    <td class="c9 thead center">
 						      <?php echo smartyTranslate(array('s'=>'Total','pdf'=>'true'),$_smarty_tpl);?>
 
@@ -136,7 +136,7 @@ $_smarty_tpl->tpl_vars['order_detail']->_loop = true;
 <?php }?>%</td>
 					<td class="c6 right"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>($_smarty_tpl->tpl_vars['order_detail']->value['unit_price_tax_incl']-$_smarty_tpl->tpl_vars['order_detail']->value['unit_price_tax_excl'])),$_smarty_tpl);?>
 </td>
-					<td class="c7 right">
+<!--					<td class="c7 right">
 					<?php if ((isset($_smarty_tpl->tpl_vars['order_detail']->value['reduction_amount'])&&$_smarty_tpl->tpl_vars['order_detail']->value['reduction_amount']>0)){?>
 						-<?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>$_smarty_tpl->tpl_vars['order_detail']->value['reduction_amount']),$_smarty_tpl);?>
 
@@ -144,9 +144,10 @@ $_smarty_tpl->tpl_vars['order_detail']->_loop = true;
 						-<?php echo $_smarty_tpl->tpl_vars['order_detail']->value['reduction_percent'];?>
 %
 					<?php }else{ ?>
-					--
-					<?php }?>
+					-
+					<?php }?>                    
 					</td>
+-->                    
 					<td class="c9 right">
 					<?php if ($_smarty_tpl->tpl_vars['tax_excluded_display']->value){?>
 						<?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>$_smarty_tpl->tpl_vars['order_detail']->value['total_price_tax_excl']),$_smarty_tpl);?>
@@ -157,6 +158,21 @@ $_smarty_tpl->tpl_vars['order_detail']->_loop = true;
 					<?php }?>
 					</td>
 				</tr>
+                <?php if ($_smarty_tpl->tpl_vars['order_detail']->value['ecotax']>0){?>
+				<tr style="line-height:6px;" <?php if ($_smarty_tpl->tpl_vars['key']->value){?>class="bordertop2"<?php }?>>
+					<td class="c1 left"></td>
+					<td class="c2 left"><?php echo smartyTranslate(array('s'=>'Recyklačný poplatok','pdf'=>'true'),$_smarty_tpl);?>
+</td>
+					<td class="c8 center"><?php echo $_smarty_tpl->tpl_vars['order_detail']->value['product_quantity'];?>
+</td>
+					<td class="c3 right"></td>
+					<td class="c4 right"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>$_smarty_tpl->tpl_vars['order_detail']->value['ecotax']),$_smarty_tpl);?>
+</td>
+					<td class="c5 center"></td>
+					<td class="c6 right"></td>
+					<td class="c9 right"></td>
+				</tr>
+                <?php }?>
 					<?php  $_smarty_tpl->tpl_vars['customizationPerAddress'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['customizationPerAddress']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['order_detail']->value['customizedDatas']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
 foreach ($_from as $_smarty_tpl->tpl_vars['customizationPerAddress']->key => $_smarty_tpl->tpl_vars['customizationPerAddress']->value){
@@ -224,7 +240,6 @@ $_smarty_tpl->tpl_vars['customization_infos']->_loop = true;
 %</td>
 					<td class="right"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>($_smarty_tpl->tpl_vars['order_invoice']->value->total_shipping_tax_incl-$_smarty_tpl->tpl_vars['order_invoice']->value->total_shipping_tax_excl)),$_smarty_tpl);?>
 </td>
-                    <td class="right">-</td>
 					<td class="center">1</td>
 					<td class="right">
 						<?php if ($_smarty_tpl->tpl_vars['tax_excluded_display']->value){?>
@@ -253,7 +268,6 @@ $_smarty_tpl->tpl_vars['customization_infos']->_loop = true;
 %</td>
 					<td class="right"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>($_smarty_tpl->tpl_vars['order_invoice']->value->total_wrapping_tax_incl-$_smarty_tpl->tpl_vars['order_invoice']->value->total_wrapping_tax_excl)),$_smarty_tpl);?>
 </td>
-                    <td class="right">-</td>
 					<td class="center">1</td>                    
 					<td class="right">
 					<?php if ($_smarty_tpl->tpl_vars['tax_excluded_display']->value){?>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2016-01-23 13:43:06
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 22:31:29
          compiled from "C:\wamp\www\override\controllers\admin\templates\orders\helpers\view\view.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:108554fd89f23e3a25-03729099%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -37,7 +37,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'dcc6d59e426aa7ff54c19f3ad8eb9d1279e78001' => 
     array (
       0 => 'C:\\wamp\\www\\override\\controllers\\admin\\templates\\orders\\_product_line.tpl',
-      1 => 1453505737,
+      1 => 1453555567,
       2 => 'file',
     ),
     'd80c53bc781816ed3fb3f1078d9387bab043b313' => 
@@ -506,7 +506,7 @@ $_smarty_tpl->tpl_vars['brother_order']->_loop = true;
 				    <?php /*  Call merged included template "controllers/orders/_documents.tpl" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate('controllers/orders/_documents.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0, '108554fd89f23e3a25-03729099');
-content_56a3755b431714_19543048($_smarty_tpl);
+content_571fd02197e9f5_20819050($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "controllers/orders/_documents.tpl" */?>
                 <?php }?>
 			</fieldset>
@@ -795,7 +795,7 @@ $_smarty_tpl->tpl_vars['invoice']->_loop = true;
 					<?php /*  Call merged included template "controllers/orders/_shipping.tpl" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate('controllers/orders/_shipping.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0, '108554fd89f23e3a25-03729099');
-content_56a3755b9af004_82805875($_smarty_tpl);
+content_571fd022041b31_41194941($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "controllers/orders/_shipping.tpl" */?>
 
 					<?php if ($_smarty_tpl->tpl_vars['carrierModuleCall']->value){?>
@@ -1083,21 +1083,21 @@ $_smarty_tpl->tpl_vars['product']->_loop = true;
 						<?php /*  Call merged included template "controllers/orders/_customized_data.tpl" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate('controllers/orders/_customized_data.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0, '108554fd89f23e3a25-03729099');
-content_56a3755be18003_53214192($_smarty_tpl);
+content_571fd022516a37_53967632($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "controllers/orders/_customized_data.tpl" */?>
 
 						
 						<?php /*  Call merged included template "../../_product_line.tpl" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate('../../_product_line.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0, '108554fd89f23e3a25-03729099');
-content_56a3755c247923_17172381($_smarty_tpl);
+content_571fd0228f0684_22693225($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "../../_product_line.tpl" */?>
 					<?php } ?>
 					<?php if ($_smarty_tpl->tpl_vars['can_edit']->value){?>
 						<?php /*  Call merged included template "../../_new_product.tpl" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate('../../_new_product.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0, '108554fd89f23e3a25-03729099');
-content_56a3755c6a5d76_24059710($_smarty_tpl);
+content_571fd022d47945_91349592($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "../../_new_product.tpl" */?>
 					<?php }?>
 				</table>
@@ -1222,7 +1222,7 @@ $_smarty_tpl->tpl_vars['discount']->_loop = true;
 								<?php /*  Call merged included template "controllers/orders/_discount_form.tpl" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate('controllers/orders/_discount_form.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0, '108554fd89f23e3a25-03729099');
-content_56a3755c8e61a2_59084701($_smarty_tpl);
+content_571fd02305fd46_63765639($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "controllers/orders/_discount_form.tpl" */?>
 							</td>
 						</tr>
@@ -1388,9 +1388,9 @@ if (!empty($_capture_buffer)) {
 	<?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['hook'][0][0]->smartyHook(array('h'=>$_smarty_tpl->tpl_vars['hookName']->value),$_smarty_tpl);?>
 
 <?php }?>
-<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-01-23 13:43:07
+<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 22:31:29
          compiled from "C:\wamp\www\shopadmin/themes/default\template\controllers\orders\_documents.tpl" */ ?>
-<?php if ($_valid && !is_callable('content_56a3755b431714_19543048')) {function content_56a3755b431714_19543048($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_escape')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.escape.php';
+<?php if ($_valid && !is_callable('content_571fd02197e9f5_20819050')) {function content_571fd02197e9f5_20819050($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_escape')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.escape.php';
 ?>zz
 <table class="table" width="100%;" cellspacing="0" cellpadding="0" id="documents_table">
 	<thead>
@@ -1568,9 +1568,9 @@ if (!$_smarty_tpl->tpl_vars['document']->_loop) {
 	<?php } ?>
 	</tbody>
 </table>
-<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-01-23 13:43:07
+<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 22:31:30
          compiled from "C:\wamp\www\shopadmin/themes/default\template\controllers\orders\_shipping.tpl" */ ?>
-<?php if ($_valid && !is_callable('content_56a3755b9af004_82805875')) {function content_56a3755b9af004_82805875($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_replace')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.replace.php';
+<?php if ($_valid && !is_callable('content_571fd022041b31_41194941')) {function content_571fd022041b31_41194941($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_replace')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.replace.php';
 if (!is_callable('smarty_modifier_escape')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.escape.php';
 ?>
 <table class="table" width="100%" cellspacing="0" cellpadding="0" id="shipping_table">
@@ -1650,9 +1650,9 @@ $_smarty_tpl->tpl_vars['line']->_loop = true;
 	<?php } ?>
 	</tbody>
 </table>
-<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-01-23 13:43:07
+<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 22:31:30
          compiled from "C:\wamp\www\shopadmin/themes/default\template\controllers\orders\_customized_data.tpl" */ ?>
-<?php if ($_valid && !is_callable('content_56a3755be18003_53214192')) {function content_56a3755be18003_53214192($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_571fd022516a37_53967632')) {function content_571fd022516a37_53967632($_smarty_tpl) {?>
 <?php if ($_smarty_tpl->tpl_vars['product']->value['customizedDatas']){?>
 	<tr class="customized customized-<?php echo $_smarty_tpl->tpl_vars['product']->value['id_order_detail'];?>
 ">
@@ -1867,9 +1867,9 @@ $_smarty_tpl->tpl_vars['data']->_loop = true;
 		<?php } ?>
 	<?php } ?>
 <?php }?>
-<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-01-23 13:43:08
+<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 22:31:30
          compiled from "C:\wamp\www\override\controllers\admin\templates\orders\_product_line.tpl" */ ?>
-<?php if ($_valid && !is_callable('content_56a3755c247923_17172381')) {function content_56a3755c247923_17172381($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_571fd0228f0684_22693225')) {function content_571fd0228f0684_22693225($_smarty_tpl) {?>
 
 
 
@@ -1890,7 +1890,7 @@ $_smarty_tpl->tpl_vars['data']->_loop = true;
 <?php if (($_smarty_tpl->tpl_vars['product']->value['unit_price_tax_excl']>=$_smarty_tpl->tpl_vars['product']->value['cena_2'])){?>
     <?php $_smarty_tpl->tpl_vars['product_provizia'] = new Smarty_variable(($_smarty_tpl->tpl_vars['product']->value['unit_price_tax_excl']*$_smarty_tpl->tpl_vars['product']->value['product_quantity']*($_smarty_tpl->tpl_vars['product']->value['provizia']/100)), true, 0);?>
 <?php }else{ ?>
-    <?php $_smarty_tpl->tpl_vars['product_provizia'] = new Smarty_variable((($_smarty_tpl->tpl_vars['product']->value['unit_price_tax_excl']-$_smarty_tpl->tpl_vars['product']->value['wholesale_price'])/2), true, 0);?>
+    <?php $_smarty_tpl->tpl_vars['product_provizia'] = new Smarty_variable((($_smarty_tpl->tpl_vars['product']->value['unit_price_tax_excl']-$_smarty_tpl->tpl_vars['product']->value['wholesale_price'])*$_smarty_tpl->tpl_vars['product']->value['product_quantity']/2), true, 0);?>
 <?php }?>
 
 <?php if (($_smarty_tpl->tpl_vars['product']->value['product_quantity']>$_smarty_tpl->tpl_vars['product']->value['customizationQuantityTotal'])){?>
@@ -2115,9 +2115,9 @@ $_smarty_tpl->tpl_vars['invoice']->_loop = true;
 	<?php }?>
 </tr>
 <?php }?>
-<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-01-23 13:43:08
+<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 22:31:30
          compiled from "C:\wamp\www\override\controllers\admin\templates\orders\_new_product.tpl" */ ?>
-<?php if ($_valid && !is_callable('content_56a3755c6a5d76_24059710')) {function content_56a3755c6a5d76_24059710($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_571fd022d47945_91349592')) {function content_571fd022d47945_91349592($_smarty_tpl) {?>
 
 <tr id="new_product" height="52" style="display:none;background-color:#e9f1f6">
 	<td style="display:none;" colspan="3">
@@ -2213,9 +2213,9 @@ $_smarty_tpl->tpl_vars['invoice']->_loop = true;
 		</div>
 	</td>
 </tr>
-<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-01-23 13:43:08
+<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 22:31:31
          compiled from "C:\wamp\www\shopadmin/themes/default\template\controllers\orders\_discount_form.tpl" */ ?>
-<?php if ($_valid && !is_callable('content_56a3755c8e61a2_59084701')) {function content_56a3755c8e61a2_59084701($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_571fd02305fd46_63765639')) {function content_571fd02305fd46_63765639($_smarty_tpl) {?>
 
 	<label><?php echo smartyTranslate(array('s'=>'Name'),$_smarty_tpl);?>
 </label>

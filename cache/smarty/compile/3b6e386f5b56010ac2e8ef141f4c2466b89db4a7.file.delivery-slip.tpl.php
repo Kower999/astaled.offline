@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2015-06-08 11:30:58
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 23:06:50
          compiled from "C:\wamp\www\themes\default\pdf\delivery-slip.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:8314550186d5016e38-91022412%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '3b6e386f5b56010ac2e8ef141f4c2466b89db4a7' => 
     array (
       0 => 'C:\\wamp\\www\\themes\\default\\pdf\\delivery-slip.tpl',
-      1 => 1433755847,
+      1 => 1449839983,
       2 => 'file',
     ),
   ),
@@ -21,10 +21,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   array (
     'order_details' => 0,
     'order_detail' => 0,
+    'order' => 0,
     'totalcount' => 0,
     'customizationPerAddress' => 0,
     'customization' => 0,
     'customization_infos' => 0,
+    'order_invoice' => 0,
     'HOOK_DISPLAY_PDF' => 0,
   ),
   'has_nocache_code' => false,
@@ -61,10 +63,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				<tr style="line-height:4px;">
 				    <td class="borderbottom" style="text-align: left; font-weight: bold; width: 13%"><?php echo smartyTranslate(array('s'=>'EAN','pdf'=>'true'),$_smarty_tpl);?>
 </td>
-					<td class="borderbottom" style="text-align: left; padding-left: 10px; font-weight: bold; width: 80%"><?php echo smartyTranslate(array('s'=>'Product','pdf'=>'true'),$_smarty_tpl);?>
+					<td class="borderbottom" style="text-align: left; padding-left: 10px; font-weight: bold; width: 60%"><?php echo smartyTranslate(array('s'=>'Product','pdf'=>'true'),$_smarty_tpl);?>
 </td>
 					<td class="borderbottom" style="text-align: center; font-weight: bold; width: 7%"><?php echo smartyTranslate(array('s'=>'Qty','pdf'=>'true'),$_smarty_tpl);?>
+</td>                    
+	                <td class="borderbottom" style="text-align: center; font-weight: bold; width: 10%"><?php echo smartyTranslate(array('s'=>'Jednotková<br/>cena','pdf'=>'true'),$_smarty_tpl);?>
+<br /><?php echo smartyTranslate(array('s'=>'(Tax Excl.)','pdf'=>'true'),$_smarty_tpl);?>
 </td>
+                    <td class="borderbottom" style="text-align: center; font-weight: bold; width: 10%">
+                        <?php echo smartyTranslate(array('s'=>'Total','pdf'=>'true'),$_smarty_tpl);?>
+
+                        <br /><?php echo smartyTranslate(array('s'=>'(Tax Excl.)','pdf'=>'true'),$_smarty_tpl);?>
+
+                    </td>
 				</tr>
 				<?php  $_smarty_tpl->tpl_vars['order_detail'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['order_detail']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['order_details']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
@@ -76,10 +87,17 @@ $_smarty_tpl->tpl_vars['order_detail']->_loop = true;
 				<tr style="line-height:6px;">
 					<td style="text-align: left; width: 13%"><?php if (isset($_smarty_tpl->tpl_vars['order_detail']->value['product_ean13'])&&!empty($_smarty_tpl->tpl_vars['order_detail']->value['product_ean13'])){?><?php echo $_smarty_tpl->tpl_vars['order_detail']->value['product_ean13'];?>
 <?php }?></td>
-					<td style="text-align: left; width: 80% "><?php echo $_smarty_tpl->tpl_vars['order_detail']->value['product_name'];?>
+					<td style="text-align: left; width: 60% "><?php echo $_smarty_tpl->tpl_vars['order_detail']->value['product_name'];?>
 </td>
 					<td style="text-align: center; width: 7%"><?php echo $_smarty_tpl->tpl_vars['order_detail']->value['product_quantity'];?>
 </td>
+					<td style="text-align: right; width: 10%"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>$_smarty_tpl->tpl_vars['order_detail']->value['unit_price_tax_excl']),$_smarty_tpl);?>
+</td>
+					<td style="text-align: right; width: 10%">
+						<?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>$_smarty_tpl->tpl_vars['order_detail']->value['total_price_tax_excl']),$_smarty_tpl);?>
+
+					</td>
+
                     <?php $_smarty_tpl->tpl_vars['totalcount'] = new Smarty_variable($_smarty_tpl->tpl_vars['totalcount']->value+$_smarty_tpl->tpl_vars['order_detail']->value['product_quantity'], null, 0);?>
 				</tr>                
 					<?php  $_smarty_tpl->tpl_vars['customizationPerAddress'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['customizationPerAddress']->_loop = false;
@@ -131,11 +149,21 @@ $_smarty_tpl->tpl_vars['customization_infos']->_loop = true;
 				<?php } ?>
 				<tr style="line-height:6px;">
 					<td class="bordertop" style="text-align: left; width: 13%"></td>
-					<td class="bordertop" style="text-align: left; width: 80% "><?php echo smartyTranslate(array('s'=>'Spolu množstvo','pdf'=>'true'),$_smarty_tpl);?>
+					<td class="bordertop" style="text-align: left; width: 60% "><?php echo smartyTranslate(array('s'=>'Spolu množstvo','pdf'=>'true'),$_smarty_tpl);?>
 </td>
 					<td class="bordertop" style="text-align: center; width: 7%"><?php echo $_smarty_tpl->tpl_vars['totalcount']->value;?>
 </td>
-				</tr>                
+                    <td class="bordertop" style="text-align: center; font-weight: bold; width: 10%"></td>
+                    <td class="bordertop" style="text-align: center; font-weight: bold; width: 10%"></td>
+				</tr>           
+				<tr style="line-height:5px;">
+					<td style="text-align: left; width: 13%"></td>
+					<td style="width: 70%; text-align: left; font-weight: bold"><?php echo smartyTranslate(array('s'=>'Product Total (Tax Excl.)','pdf'=>'true'),$_smarty_tpl);?>
+</td>
+					<td style="width: 17%; text-align: right;"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>$_smarty_tpl->tpl_vars['order_invoice']->value->total_products),$_smarty_tpl);?>
+</td>
+				</tr>
+                     
 				<!-- END PRODUCTS -->
 			</table>
 

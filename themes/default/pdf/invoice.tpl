@@ -114,6 +114,18 @@
 					{/if}
 					</td>
 				</tr>
+                {if $order_detail.ecotax>0}
+				<tr style="line-height:6px;" {if $key}class="bordertop2"{/if}>
+					<td class="c1 left"></td>
+					<td class="c2 left">{l s='Recyklačný poplatok' pdf='true'}</td>
+					<td class="c8 center">{$order_detail.product_quantity}</td>
+					<td class="c3 right"></td>
+					<td class="c4 right">{displayPrice currency=$order->id_currency price=$order_detail.ecotax}</td>
+					<td class="c5 center"></td>
+					<td class="c6 right"></td>
+					<td class="c9 right"></td>
+				</tr>
+                {/if}
 					{foreach $order_detail.customizedDatas as $customizationPerAddress}
 						{foreach $customizationPerAddress as $customizationId => $customization}
 							<tr style="line-height:6px;">

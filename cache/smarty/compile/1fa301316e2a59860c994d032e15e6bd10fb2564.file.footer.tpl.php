@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2015-05-29 09:02:25
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 22:31:51
          compiled from "C:\wamp\www\themes\default\pdf\footer.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:29861550186d4e42aa6-11578297%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '1fa301316e2a59860c994d032e15e6bd10fb2564' => 
     array (
       0 => 'C:\\wamp\\www\\themes\\default\\pdf\\footer.tpl',
-      1 => 1431718755,
+      1 => 1449839983,
       2 => 'file',
     ),
   ),
