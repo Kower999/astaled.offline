@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2016-01-22 23:03:52
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-27 13:09:27
          compiled from "C:\wamp\www\shopadmin\themes\default\template\controllers\carriers\helpers\form\form.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2348954458b89a85253-57162346%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,25 +7,25 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '31ee23a53cf524f0201bfba83b115542f17f6a0c' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin\\themes\\default\\template\\controllers\\carriers\\helpers\\form\\form.tpl',
-      1 => 1449845534,
+      1 => 1461742550,
       2 => 'file',
     ),
     'df3b1b1f13f2efd6612fe84e816c1aae31c27fee' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\helpers\\form\\form.tpl',
-      1 => 1449845523,
+      1 => 1461742550,
       2 => 'file',
     ),
     'ce6e9d9bf8fde6ef5874c14cde7d82490b29180e' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\helpers\\form\\form_group.tpl',
-      1 => 1449845523,
+      1 => 1461742550,
       2 => 'file',
     ),
     '177383f7dca8e956e7db8ed3d58abde2cb6309e0' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\helpers\\form\\form_category.tpl',
-      1 => 1449845523,
+      1 => 1461742550,
       2 => 'file',
     ),
   ),
@@ -540,7 +540,7 @@ $_smarty_tpl->tpl_vars['v']->_loop = true;
 									<?php /*  Call merged included template "helpers/form/form_group.tpl" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate('helpers/form/form_group.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array(), 0, '2348954458b89a85253-57162346');
-content_56a2a748b09773_09875788($_smarty_tpl);
+content_57209de94af386_44609695($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "helpers/form/form_group.tpl" */?>
 								<?php }elseif($_smarty_tpl->tpl_vars['input']->value['type']=='shop'){?>
 									<?php echo $_smarty_tpl->tpl_vars['input']->value['html'];?>
@@ -549,7 +549,7 @@ $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "helpers/for
 									<?php /*  Call merged included template "helpers/form/form_category.tpl" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate('helpers/form/form_category.tpl', $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, null, null, array('categories'=>$_smarty_tpl->tpl_vars['input']->value['values']), 0, '2348954458b89a85253-57162346');
-content_56a2a748b96fd9_92291326($_smarty_tpl);
+content_57209de9655183_14763447($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); /*  End of included template "helpers/form/form_category.tpl" */?>
 								<?php }elseif($_smarty_tpl->tpl_vars['input']->value['type']=='categories_select'){?>
 									<?php echo $_smarty_tpl->tpl_vars['input']->value['category_tree'];?>
@@ -791,9 +791,9 @@ $_smarty_tpl->tpl_vars['language']->_loop = true;
 
 	</script>
 <?php }?>
-<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-01-22 23:03:52
+<?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-04-27 13:09:29
          compiled from "C:\wamp\www\shopadmin/themes/default\template\helpers\form\form_group.tpl" */ ?>
-<?php if ($_valid && !is_callable('content_56a2a748b09773_09875788')) {function content_56a2a748b09773_09875788($_smarty_tpl) {?>
+<?php if ($_valid && !is_callable('content_57209de94af386_44609695')) {function content_57209de94af386_44609695($_smarty_tpl) {?>
 
 <?php if (count($_smarty_tpl->tpl_vars['groups']->value)&&isset($_smarty_tpl->tpl_vars['groups']->value)){?>
 <table cellspacing="0" cellpadding="0" class="table" style="width:28em;">
@@ -831,9 +831,9 @@ $_smarty_tpl->tpl_vars['group']->_loop = true;
 <?php }else{ ?>
 <p><?php echo smartyTranslate(array('s'=>'No group created'),$_smarty_tpl);?>
 </p>
-<?php }?><?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-01-22 23:03:52
+<?php }?><?php }} ?><?php /* Smarty version Smarty-3.1.8, created on 2016-04-27 13:09:29
          compiled from "C:\wamp\www\shopadmin/themes/default\template\helpers\form\form_category.tpl" */ ?>
-<?php if ($_valid && !is_callable('content_56a2a748b96fd9_92291326')) {function content_56a2a748b96fd9_92291326($_smarty_tpl) {?><?php if (!is_callable('smarty_function_implode')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\function.implode.php';
+<?php if ($_valid && !is_callable('content_57209de9655183_14763447')) {function content_57209de9655183_14763447($_smarty_tpl) {?><?php if (!is_callable('smarty_function_implode')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\function.implode.php';
 ?>
 <?php if (count($_smarty_tpl->tpl_vars['categories']->value)&&isset($_smarty_tpl->tpl_vars['categories']->value)){?>
 	<script type="text/javascript">

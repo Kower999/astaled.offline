@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2016-04-26 23:07:21
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-27 13:49:59
          compiled from "C:\wamp\www\themes\default\pdf\invoice.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:47335501810c9abbd4-43115906%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '0417324f8aa25cb2e3d3d790ed0032870a6509c8' => 
     array (
       0 => 'C:\\wamp\\www\\themes\\default\\pdf\\invoice.tpl',
-      1 => 1461704254,
+      1 => 1461757788,
       2 => 'file',
     ),
   ),
@@ -168,7 +168,9 @@ $_smarty_tpl->tpl_vars['order_detail']->_loop = true;
 					<td class="c3 right"></td>
 					<td class="c4 right"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('currency'=>$_smarty_tpl->tpl_vars['order']->value->id_currency,'price'=>$_smarty_tpl->tpl_vars['order_detail']->value['ecotax']),$_smarty_tpl);?>
 </td>
-					<td class="c5 center"></td>
+					<td class="c5 center"><?php if ($_smarty_tpl->tpl_vars['order_detail']->value['tax_rate']>0){?><?php echo number_format($_smarty_tpl->tpl_vars['order_detail']->value['tax_rate'],0);?>
+<?php }else{ ?><?php echo number_format($_smarty_tpl->tpl_vars['order']->value->carrier_tax_rate,0);?>
+<?php }?>%</td>
 					<td class="c6 right"></td>
 					<td class="c9 right"></td>
 				</tr>

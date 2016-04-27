@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2015-12-11 16:41:54
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-27 11:59:23
          compiled from "C:\wamp\www\shopadmin/themes/default\template\controllers\products\multishop\check_fields.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1690854f482a8b81f47-22848759%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '82b08dc60bb9f4cc097726732da5f66a23247230' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\controllers\\products\\multishop\\check_fields.tpl',
-      1 => 1449845526,
+      1 => 1461742550,
       2 => 'file',
     ),
   ),

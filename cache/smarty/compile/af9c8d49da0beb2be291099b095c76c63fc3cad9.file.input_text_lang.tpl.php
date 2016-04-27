@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2015-12-11 16:41:57
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-27 11:59:31
          compiled from "C:\wamp\www\shopadmin/themes/default\template\controllers\products\input_text_lang.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1312654f482a66d4239-14398681%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'af9c8d49da0beb2be291099b095c76c63fc3cad9' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\controllers\\products\\input_text_lang.tpl',
-      1 => 1449845526,
+      1 => 1461742550,
       2 => 'file',
     ),
   ),

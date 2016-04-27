@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2015-12-11 15:53:03
+<?php /* Smarty version Smarty-3.1.8, created on 2016-04-27 11:59:18
          compiled from "C:\wamp\www\shopadmin/themes/default\template\helpers\list\list_action_delete.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:248255502e1b214be14-85266224%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '1663864b1711aef5b1e0cf17da308ee889bdc83a' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\helpers\\list\\list_action_delete.tpl',
-      1 => 1449845524,
+      1 => 1461742550,
       2 => 'file',
     ),
   ),
