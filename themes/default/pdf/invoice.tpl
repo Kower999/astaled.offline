@@ -121,7 +121,7 @@
 					<td class="c8 center">{$order_detail.product_quantity}</td>
 					<td class="c3 right"></td>
 					<td class="c4 right">{displayPrice currency=$order->id_currency price=$order_detail.ecotax}</td>
-					<td class="c5 center">{if $order_detail.tax_rate>0}{$order_detail.tax_rate|number_format:0}{else}{$order->carrier_tax_rate|number_format:0}{/if}%</td>
+					<td class="c5 center">{if $order_detail.tax_rate>0}{$order_detail.tax_rate|number_format:0}{else}{$order->carrier_tax_rate|number_format:0}{/if}% </td>
 					<td class="c6 right"></td>
 					<td class="c9 right"></td>
 				</tr>
