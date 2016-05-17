@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2015-02-27 21:48:26
+<?php /* Smarty version Smarty-3.1.8, created on 2016-05-17 10:35:35
          compiled from "C:\wamp\www\shopadmin\themes\default\template\controllers\stats\helpers\view\view.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:1555054f0d81a25ab86-11523440%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,13 +7,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '518f2b1041ebb29d9234fc7f3a01e41fb40a46f8' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin\\themes\\default\\template\\controllers\\stats\\helpers\\view\\view.tpl',
-      1 => 1423781537,
+      1 => 1461742550,
       2 => 'file',
     ),
     '51367bb1fb14a4a57aa34f1fb21f6c485b92f92d' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\helpers\\view\\view.tpl',
-      1 => 1423781537,
+      1 => 1461742550,
       2 => 'file',
     ),
   ),
@@ -21,6 +21,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_54f0d81a324e64_26610964',
   'variables' => 
   array (
     'show_toolbar' => 0,
@@ -31,8 +33,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'hookName' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_54f0d81a324e64_26610964',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_54f0d81a324e64_26610964')) {function content_54f0d81a324e64_26610964($_smarty_tpl) {?>
 
