@@ -3,7 +3,6 @@ include_once dirname(__FILE__).'/../abstract/DataController.php';
 
 class UpdateController extends DataController
 {
-    public $last_version;
     
     public $files = array('update_db.xml','update_files.zip','configs.zip', '../cache/class_index.php');
     
@@ -56,8 +55,6 @@ class UpdateController extends DataController
             }            
             define('_DROPBOX_BACKUP_DIR_', $dumppath);
         }
-            
-        $this->last_version = Configuration::get('LAST_UPDATE_VERSION');
 
 //        if (Context::getContext()->employee->isLoggedBack() && (Context::getContext()->employee->id_profile != 5) ) {                            
         if (Context::getContext()->employee->isLoggedBack()) {                            
@@ -68,6 +65,13 @@ class UpdateController extends DataController
 //            $this->checkrequirements();
             }
         }            
+        
+        $new = sprintf("%01.2f", (float)Tools::getValue("ver"));
+        if((int)Tools::getValue("presmerovanie") == 1)
+            $this->warnings[] = Tools::displayError( 'Boli ste sem presmerovaný z dôvodu že bola vydaná aktualizácia systému. Bez tejto aktualizácie nieje možné pokračovať v operáciách ktoré nejakým spôsobom komunikujú s online serverom. Prosím aktualizujte si teda systém na verziu: ' . $new . ' Vaša aktuálna verzia je:' . $this->last_version );
+//            $this->warnings[] = Tools::displayError('');
+//            $this->warnings[] = Tools::displayError('');
+//            $this->warnings[] = Tools::displayError();            
 	}
     
     

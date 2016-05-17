@@ -3,6 +3,10 @@ require_once(dirname(__FILE__)."/../../classes/phpmailer/class.phpmailer.php");
 require_once(dirname(__FILE__)."/../../classes/phpmailer/class.smtp.php");
 
 abstract class DataController extends ModuleAdminController {
+
+    public $last_version;
+
+    public $last_online_version;
 	
 	protected $errorMessages = '';
 	
@@ -19,9 +23,32 @@ abstract class DataController extends ModuleAdminController {
             $this->context->link = new Link();  
             
         if (!defined('_PS_ONLINE_MAIL_'))
+//            define('_PS_ONLINE_MAIL_',         'kower99@gmail.com');
             define('_PS_ONLINE_MAIL_',         'marian.gabris.vega@gmail.com');
+
+        $this->last_version = Configuration::get('LAST_UPDATE_VERSION');
+            
                            				
 	}
+
+    public function getUpdateVersion(){
+        $fname = 'update_db.xml';
+
+        unlink(_PS_DOWNLOAD_DIR_.$fname);
+            
+        file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen('http://astaled.sk/download/updates/'.$fname, 'r'));
+        $fs = filesize(_PS_DOWNLOAD_DIR_.$fname);
+        
+        if(file_exists(_PS_DOWNLOAD_DIR_.$fname) && !empty($fs)){
+            $xml = simplexml_load_string (file_get_contents(_PS_DOWNLOAD_DIR_.$fname));
+            $this->last_online_version = ''.$xml->queries->version;
+        } else {
+            $this->$last_online_version = "";
+        }
+
+        unlink(_PS_DOWNLOAD_DIR_.$fname);
+        return( $this->last_online_version );
+    }
 
 // Retrocompatibility 1.4/1.5
     public function initContext()

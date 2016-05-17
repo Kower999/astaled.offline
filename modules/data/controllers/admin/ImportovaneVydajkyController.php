@@ -91,12 +91,16 @@ class ImportovaneVydajkyController extends DataController
                 $ret .= '<tr>';    
                 $ret .= '<th>EAN</th>';    
                 $ret .= '<th>Množstvo</th>';    
+                $ret .= '<th>Pôvodný stav skladu</th>';    
+                $ret .= '<th>Nový stav skladu</th>';    
                 $ret .= '</tr>';    
                 $ret .= '</thead><tbody>';    
                 foreach($data as $r){
                     $ret .= '<tr>';    
                     $ret .= '<td>'.$r['ean'].'</td>';    
                     $ret .= '<td>'.$r['imported'].'</td>';    
+                    $ret .= '<td>'.$r['from'].'</td>';    
+                    $ret .= '<td>'.$r['to'].'</td>';    
                     $ret .= '</tr>';                        
                 }
                 $ret .= '</tbody></table>';                     

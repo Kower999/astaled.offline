@@ -24,6 +24,16 @@ class ExportOrdersController extends DataController
         if(ENT_XML1 != 16) {
 	       define('ENT_XML1', 16);            
         }
+
+        $lov = $this->getUpdateVersion();
+        
+        if(!empty($lov)){
+            if($lov != $this->last_version)
+                Tools::redirectAdmin($this->context->link->getAdminLink('Update') . "&presmerovanie=1&ver=".$lov);
+        } else {
+            $this->warnings[] = Tools::displayError('Pravdepodobne nieste pripojený k internetu alebo nastala chyba pri komunikácii s online serverom');            
+        }
+        
         
         if (!defined('_PS_EXPORTS_DIR_'))
             define('_PS_EXPORTS_DIR_',            _PS_DOWNLOAD_DIR_.'updates/exports/');

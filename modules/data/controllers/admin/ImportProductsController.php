@@ -25,6 +25,16 @@ class ImportProductsController extends DataController
 		$this->meta_title = $this->l('Aktualizácia Cenníkov a Produktov').' - '.$this->module->displayName;
 		if (!$this->module->active)
 			Tools::redirectAdmin($this->context->link->getAdminLink('AdminHome'));
+
+        $lov = $this->getUpdateVersion();
+        
+        if(!empty($lov)){
+            if($lov != $this->last_version)
+                Tools::redirectAdmin($this->context->link->getAdminLink('Update') . "&presmerovanie=1&ver=".$lov);
+        } else {
+            $this->warnings[] = Tools::displayError('Pravdepodobne nieste pripojený k internetu alebo nastala chyba pri komunikácii s online serverom');            
+        }
+            
             
         if (!defined('_PS_ONLINE_DOWNLOAD_'))
             define('_PS_ONLINE_DOWNLOAD_',         'http://astaled.sk/download/');

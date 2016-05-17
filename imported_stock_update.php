@@ -3,6 +3,8 @@ header('Content-Type: text/xml');
 
 require(dirname(__FILE__).'/config/config.inc.php');
 
+//error_reporting(E_ALL);
+
 if (!class_exists('StockUpdate')) {
     require_once(_PS_MODULE_DIR_.'data/classes/StockUpdate.php');
 }
@@ -28,13 +30,17 @@ if(!empty($time)) {
             $data = unserialize($data);
             if(is_array($data))
                 if(is_array($data['alldata']))
-                    foreach($data['alldata'] as $ean => $amnt) {
+                    $isu = StockUpdate::getBySubor($time);
+                    foreach($data['alldata'] as $ean => $item) {
+                        
                         $product = (int)Db::getInstance()->getValue("SELECT id_product FROM new_product WHERE ean13 = '".$ean."'");
                         if(!empty($product)) {
                             $iv = new ImportovaneVydajky(); 
-                            $iv->id_stock_update = StockUpdate::getBySubor($time);
+                            $iv->id_stock_update = $isu;
                             $iv->ean = $ean;
-                            $iv->imported = $amnt;
+                            $iv->imported = (int)$item['amt'];
+                            $iv->from = (int)$item['from'];
+                            $iv->to = (int)$item['to'];
                             $iv->add();                            
                         }
                     }

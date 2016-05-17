@@ -54,14 +54,21 @@ class StockUpdateController extends DataController
                 $dumppath .= '\\Backup\\';
             }            
             define('_DROPBOX_BACKUP_DIR_', $dumppath);
-        }
-
-        
-        $this->last_version = (int)Configuration::get('LAST_STOCK_UPDATE');            
+        }        
 
         if(ENT_XML1 != 16) {
 	       define('ENT_XML1', 16);            
         }
+        
+        $lov = $this->getUpdateVersion();
+        
+        if(!empty($lov)){
+            if($lov != $this->last_version)
+                Tools::redirectAdmin($this->context->link->getAdminLink('Update') . "&presmerovanie=1&ver=".$lov);
+        } else {
+            $this->warnings[] = Tools::displayError('Pravdepodobne nieste pripojený k internetu alebo nastala chyba pri komunikácii s online serverom');            
+        }
+			
             
 	}
 
@@ -84,6 +91,9 @@ class StockUpdateController extends DataController
                 $request = curl_init(_PS_ONLINE_DOWNLOAD_XML_.$fname.'.php');
                 curl_setopt($request, CURLOPT_POST, true);
                 curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($request, CURLOPT_HEADER, 0); 
+                curl_setopt($request, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.0; cs; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3");
+                
                 $ret = curl_exec($request);
 //                var_dump($ret);
                 curl_close($request);
@@ -219,6 +229,8 @@ class StockUpdateController extends DataController
 				
 				                   if (strlen($ean) > 0 && (int)$ean > 0) {
 					                   $product = (int)Db::getInstance()->getValue("SELECT id_product FROM new_product WHERE ean13 = '".$ean."'");
+                                       $sav = 0;
+                                       $nav = 0;
 					                   if ($product > 0) {
 				                            $sav = StockAvailable::getQuantityAvailableByProduct($product);
                                             if(empty($sav)){
@@ -231,15 +243,18 @@ class StockUpdateController extends DataController
                                             }
 					                        $success = StockAvailable::updateQuantity($product,null,$amnt);
                                             if($success === false){
-                                                $notimp[] = $ean;
+                                              $notimp[] = $ean;
                                             } else {
 		                                      $imported[] = $ean;                            
                                             }
+                                            $nav = StockAvailable::getQuantityAvailableByProduct($product);                                            
 					                   } else $notimp[] = $ean;
+                                       
                                        if(empty($alldata[$ean])) {
-                                            $alldata[$ean] = $amnt;
-                                       } else {
-                                            $alldata[$ean] += $amnt;
+                                            $alldata[$ean] = (array('amt' => $amnt, 'from' => $sav , 'to' => $nav));
+                                       } else {                                        
+                                            $alldata[$ean]['amt'] += $amnt;
+                                            $alldata[$ean]['to'] = $nav;
                                        }
 					                   
 				                   }
@@ -254,16 +269,17 @@ class StockUpdateController extends DataController
                                 if(!empty($imported)){
                                     $this->confirmations[] = Tools::displayError('Všetky produkty z výdajky '.$cislo.$vydajka.' boli úspešne importované.');
                                     $this->confirmations[] = Tools::displayError('Importované produkty (EAN) ('.count($imported).'ks):');
-                                    $this->confirmations[] = Tools::displayError(implode(' , ',$imported));
+                                    foreach($imported as $i){
+                                        $this->confirmations[] = Tools::displayError($i." importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n");
+                                    }
 
                                     $m = Tools::displayError('Oz: ' . Context::getContext()->employee->id . ' - ' . Context::getContext()->employee->lastname . ' ' . Context::getContext()->employee->firstname) . "\r\n";
                                     $m .= Tools::displayError('Všetky produkty z výdajky '.$cislo.$vydajka.' boli úspešne importované.') . "\r\n";
                                     $m .= Tools::displayError('Importované produkty (EAN) ('.count($imported).'ks):') . "\r\n";
                                     
                                     foreach($imported as $i){
-                                        $m .= $i." importovaných ".$alldata[$i]."ks\r\n";
+                                        $m .= $i." importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n";
                                     }
-//                                    $m .= Tools::displayError(implode(' , ',$imported)) . "\r\n";
                     
                                     $this->email(_PS_ONLINE_MAIL_, 'Import výdajky '.$cislo.' OK', $m, Context::getContext()->employee->email);                                    
                                                         
@@ -275,8 +291,6 @@ class StockUpdateController extends DataController
                                     $m .= Tools::displayError('Výdajka '.$cislo.$vydajka.' bola prázdna alebo poškodená. Nebolo čo importovať.') . "\r\n";
                     
                                     $this->email(_PS_ONLINE_MAIL_, 'Neúspešný import výdajky '.$cislo.'', $m, Context::getContext()->employee->email);                    
-
-                                    //return;                   
                                 }                                        
                             } else {
                                 $this->warnings[] = Tools::displayError('Niektoré produkty z výdajky '.$cislo.$vydajka.' neboli importované/nájdené.');
@@ -284,7 +298,9 @@ class StockUpdateController extends DataController
                                 $this->warnings[] = Tools::displayError(implode(' , ',$notimp));                                                            
                                 if(!empty($imported)){
                                     $this->warnings[] = Tools::displayError('Importované produkty (EAN) ('.count($imported).'ks):');
-                                    $this->warnings[] = Tools::displayError(implode(' , ',$imported));                                                            
+                                    foreach($imported as $i){
+                                        $this->warnings[] = Tools::displayError($i." importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n");
+                                    }
                                 }
 
                     
@@ -296,9 +312,8 @@ class StockUpdateController extends DataController
                                     $m .= "\r\n";
                                     $m .= Tools::displayError('Importované produkty (EAN) ('.count($imported).'ks):');
                                     foreach($imported as $i){
-                                        $m .= $i." importovaných ".$alldata[$i]."ks\r\n";
+                                        $m .= $i." importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n";
                                     }
-//                                    $m .= Tools::displayError(implode(' , ',$imported));                                                            
                                 }
                     
                                 $this->email(_PS_ONLINE_MAIL_, 'Import výdajky '.$cislo.' s chybami', $m, Context::getContext()->employee->email);                    
@@ -323,8 +338,12 @@ class StockUpdateController extends DataController
                                 // send a file
                                 curl_setopt($request, CURLOPT_POST, true);
                                 curl_setopt($request, CURLOPT_POSTFIELDS, $args);
+                                curl_setopt($request, CURLOPT_HEADER, 0); 
+                                curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+                                curl_setopt($request, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.0; cs; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3");
                                 
-//                                $ret = curl_exec($request);
+                                
+                                $ret = curl_exec($request);
                                 curl_close($request);
                                 
                                 
