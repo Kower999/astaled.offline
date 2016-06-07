@@ -387,7 +387,7 @@ function setlocation($id_address){
                     $region = $country->name[7]; // hardkodovane id_lang 
                     $address = $addr->address1.',+'.$addr->postcode.'+'.$addr->city.',+'.$region;
                     $address = str_replace(' ','+',$address);
-                    $url = "http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=$region";
+                    $url = "http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=$region&key=AIzaSyDegmZOHh6GwFBlemlYk_vJhGHiNduMVew";
                     $ch = curl_init();
                     curl_setopt($ch, CURLOPT_URL, $url);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
