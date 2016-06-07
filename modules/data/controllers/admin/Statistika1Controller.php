@@ -20,6 +20,7 @@ class Statistika1Controller extends DataController
          $this->lang = false;
          $this->context = Context::getContext();   
          $this->context->link = new Link();                 				
+         $this->explSelect = false;
 
         parent::__construct();            
                  
@@ -211,23 +212,23 @@ class Statistika1Controller extends DataController
 
         $this->_tmpTableFilter = ' GROUP BY id_order_detail';
 
-        $this->_select = 'catl.name AS category, IF(scat.`id_category` > 2,  scatl.name, "-") AS sub_category,o.invoice_number, m.name AS manufacturer, o.date_add, acs.name AS id_address_category, ad.company, ad.city, ad.postcode, ad.address1, CONCAT_WS( " ", ai.company, ",", ai.`lastname`,ai.`firstname`, ",", ai.`address1`, ",", ai.`postcode`, ai.`city`,"(IČO:", ai.`dni`,")") AS customer, ai.dni, ai.phone_mobile, c.email, e.lastname AS employee';
+        $this->_select = 'a.`id_order_detail`, a.`id_order`, a.`product_id`, a.`product_ean13`, a.`product_name`, m.`name`, a.`unit_price_tax_excl`, a.`product_quantity`, a.`total_price_tax_excl`,  catl.name AS category, IF(scat.`id_category` > 2,  scatl.name, "-") AS sub_category,o.invoice_number, m.name AS manufacturer, o.date_add, acs.name AS id_address_category, ad.company, ad.city, ad.postcode, ad.address1, CONCAT_WS( " ", ai.company, ",", ai.`lastname`,ai.`firstname`, ",", ai.`address1`, ",", ai.`postcode`, ai.`city`,"(IČO:", ai.`dni`,")") AS customer, ai.dni, ai.phone_mobile, c.email, e.lastname AS employee';
         
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'orders` o ON (a.`id_order` = o.`id_order`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product` p ON (a.`product_id` = p.`id_product`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'orders` o ON (o.`id_order` = a.`id_order`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product` p ON (p.`id_product` = a.`product_id`) ';
 		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'manufacturer` m ON (m.`id_manufacturer` = p.`id_manufacturer`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'customer` c ON (o.`id_customer` = c.`id_customer`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address` ad ON (o.`id_address_delivery` = ad.`id_address`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address` ai ON (o.`id_address_invoice` = ai.`id_address`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address_category` ac ON (o.`id_address_delivery` = ac.`id_address`) ';        
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address_categories` acs ON (ac.`id_address_category` = acs.`id`) ';        
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'employee` e ON (c.`id_employee` = e.`id_employee`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'customer` c ON (c.`id_customer` = o.`id_customer`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address` ad ON (ad.`id_address` = o.`id_address_delivery`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address` ai ON (ai.`id_address` = o.`id_address_invoice`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address_category` ac ON (ac.`id_address` = o.`id_address_delivery`) ';        
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address_categories` acs ON (acs.`id` = ac.`id_address_category`) ';        
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'employee` e ON (e.`id_employee` = c.`id_employee`) ';
         
 		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_product` cp2 ON (cp2.`id_product` = p.`id_product`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` scat ON (cp2.`id_category` = scat.`id_category` ) ';        
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` scat ON (scat.`id_category` = cp2.`id_category` ) ';        
 		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_lang` scatl ON (scatl.`id_category` = scat.`id_category` AND scatl.`id_lang` = 7) ';  
 
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` cat ON (scat.`id_parent` = cat.`id_category` )';        
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` cat ON (cat.`id_category` = scat.`id_parent`)';        
 		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_lang` catl ON (catl.`id_category` = cat.`id_category` AND catl.`id_lang` = 7) ';        
         
 	    if(!Tools::isSubmit('submitResetorder_detail') && Tools::isSubmit('submitFilterorder_detail')){
@@ -272,7 +273,7 @@ class Statistika1Controller extends DataController
 		   $this->getList($this->context->language->id,'');            
         }
         
-//Tools::fd($this->_listsql);
+Tools::fd($this->_listsql);
 
 		// Empty list is ok
 		if (!is_array($this->_list))
@@ -317,24 +318,25 @@ $back2 = $this->fields_list;
 
         $this->_tmpTableFilter = ' GROUP BY id_order_detail';
 
-//        $this->_select = '';
-unset($this->_select);
+        $this->_select = 'a.`id_order_detail`, a.`product_quantity`, a.`total_price_tax_excl`';
+//unset($this->_select);
+//         $this->explSelect = true;
         
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'orders` o ON (a.`id_order` = o.`id_order`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product` p ON (a.`product_id` = p.`id_product`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'orders` o ON (o.`id_order` = a.`id_order` ) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product` p ON (p.`id_product` = a.`product_id` ) ';
 		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'manufacturer` m ON (m.`id_manufacturer` = p.`id_manufacturer`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'customer` c ON (o.`id_customer` = c.`id_customer`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address` ad ON (o.`id_address_delivery` = ad.`id_address`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address` ai ON (o.`id_address_invoice` = ai.`id_address`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address_category` ac ON (o.`id_address_delivery` = ac.`id_address`) ';        
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address_categories` acs ON (ac.`id_address_category` = acs.`id`) ';        
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'employee` e ON (c.`id_employee` = e.`id_employee`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'customer` c ON (c.`id_customer` = o.`id_customer`) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address` ad ON (ad.`id_address` = o.`id_address_delivery` ) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address` ai ON (ai.`id_address` = o.`id_address_invoice` ) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address_category` ac ON (ac.`id_address` = o.`id_address_delivery` ) ';        
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'address_categories` acs ON (acs.`id` = ac.`id_address_category` ) ';        
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'employee` e ON (e.`id_employee` = c.`id_employee` ) ';
         
 		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_product` cp2 ON (cp2.`id_product` = p.`id_product`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` scat ON (cp2.`id_category` = scat.`id_category` ) ';        
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` scat ON (scat.`id_category` = cp2.`id_category` ) ';        
 		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_lang` scatl ON (scatl.`id_category` = scat.`id_category` AND scatl.`id_lang` = 7) ';  
 
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` cat ON (scat.`id_parent` = cat.`id_category` )';        
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` cat ON (cat.`id_category` = scat.`id_parent` )';        
 		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_lang` catl ON (catl.`id_category` = cat.`id_category` AND catl.`id_lang` = 7) ';        
         
 	    if(!Tools::isSubmit('submitResetorder_detail') && Tools::isSubmit('submitFilterorder_detail')){
@@ -550,10 +552,10 @@ $this->fields_list = $back2;
 			$this->_listsql = rtrim($this->_listsql, ',');
 		}
 		else
-			$this->_listsql .= ($this->lang ? 'b.*,' : '').' a.*';
+			$this->_listsql .= ($this->lang ? 'b.*,' : '').($this->explSelect ? ' a.*' : '');
 		
 		$this->_listsql .= '
-		'.(isset($this->_select) ? ', '.$this->_select : '').$select_shop.'
+		'.(isset($this->_select) ? ($this->explSelect ? ', ' : '').$this->_select : '').$select_shop.'
 		FROM `'._DB_PREFIX_.$sql_table.'` a
 		'.$lang_join.'
 		'.(isset($this->_join) ? $this->_join.' ' : '').'
@@ -579,15 +581,15 @@ $this->fields_list = $back2;
 //                $this->_filter = urldecode($filter); 
                 $filter = urldecode($filter); 
 //      		$this->getList($this->context->language->id);
-            
-            $rows = Db::getInstance()->executeS('SELECT SQL_CALC_FOUND_ROWS
-		 * FROM (SELECT  a.*
-		, catl.name AS category, IF(scat.`id_category` > 2,  scatl.name, "-") AS sub_category,o.invoice_number, m.name AS manufacturer, o.date_add, acs.name AS id_address_category, ad.company, ad.city, ad.postcode, ad.address1, CONCAT_WS( " ", ai.company, ",", ai.`lastname`,ai.`firstname`, ",", ai.`address1`, ",", ai.`postcode`, ai.`city`,"(IČO:", ai.`dni`,")") AS customer, ai.dni, ai.phone_mobile, c.email, e.lastname AS employee
-		FROM `new_order_detail` a
-		
-		LEFT JOIN `new_orders` o ON (a.`id_order` = o.`id_order`) LEFT JOIN `new_product` p ON (a.`product_id` = p.`id_product`) LEFT JOIN `new_manufacturer` m ON (m.`id_manufacturer` = p.`id_manufacturer`) LEFT JOIN `new_customer` c ON (o.`id_customer` = c.`id_customer`) LEFT JOIN `new_address` ad ON (o.`id_address_delivery` = ad.`id_address`) LEFT JOIN `new_address` ai ON (o.`id_address_invoice` = ai.`id_address`) LEFT JOIN `new_address_category` ac ON (o.`id_address_delivery` = ac.`id_address`) LEFT JOIN `new_address_categories` acs ON (ac.`id_address_category` = acs.`id`) LEFT JOIN `new_employee` e ON (c.`id_employee` = e.`id_employee`) LEFT JOIN `new_category_product` cp2 ON (cp2.`id_product` = p.`id_product`) LEFT JOIN `new_category` scat ON (cp2.`id_category` = scat.`id_category` ) LEFT JOIN `new_category_lang` scatl ON (scatl.`id_category` = scat.`id_category` AND scatl.`id_lang` = 7) LEFT JOIN `new_category` cat ON (scat.`id_parent` = cat.`id_category` )LEFT JOIN `new_category_lang` catl ON (catl.`id_category` = cat.`id_category` AND catl.`id_lang` = 7)  
-		
-		WHERE 1 '.$filter.' ORDER BY scat.`level_depth` DESC) tmpTable WHERE 1 GROUP BY id_order_detail');
+
+        $rows = Db::getInstance()->executeS('SELECT SQL_CALC_FOUND_ROWS
+         *  FROM (SELECT  a.`id_order_detail`, a.`id_order`, a.`product_id`, a.`product_ean13`, a.`product_name`, m.`name`, a.`unit_price_tax_excl`, a.`product_quantity`, a.`total_price_tax_excl` 
+        , catl.name AS category, IF(scat.`id_category` > 2,  scatl.name, "-") AS sub_category,o.invoice_number, m.name AS manufacturer, o.date_add, acs.name AS id_address_category, ad.company, ad.city, ad.postcode, ad.address1, CONCAT_WS( " ", ai.company, ",", ai.`lastname`,ai.`firstname`, ",", ai.`address1`, ",", ai.`postcode`, ai.`city`,"(IČO:", ai.`dni`,")") AS customer, ai.dni, ai.phone_mobile, c.email, e.lastname AS employee
+        FROM `new_order_detail` a
+        LEFT JOIN `new_orders` o ON (o.`id_order` = a.`id_order`) LEFT JOIN `new_product` p ON (p.`id_product` = a.`product_id`) LEFT JOIN `new_manufacturer` m ON (m.`id_manufacturer` = p.`id_manufacturer`) LEFT JOIN `new_customer` c ON (c.`id_customer` = o.`id_customer`) LEFT JOIN `new_address` ad ON (ad.`id_address` = o.`id_address_delivery`) LEFT JOIN `new_address` ai ON (ai.`id_address` = o.`id_address_invoice`) LEFT JOIN `new_address_category` ac ON (ac.`id_address` = o.`id_address_delivery`) LEFT JOIN `new_address_categories` acs ON (acs.`id` = ac.`id_address_category`) LEFT JOIN `new_employee` e ON (e.`id_employee` = c.`id_employee`) LEFT JOIN `new_category_product` cp2 ON (cp2.`id_product` = p.`id_product`) LEFT JOIN `new_category` scat ON (scat.`id_category` = cp2.`id_category` ) LEFT JOIN `new_category_lang` scatl ON (scatl.`id_category` = scat.`id_category` AND scatl.`id_lang` = 7) LEFT JOIN `new_category` cat ON (cat.`id_category` = scat.`id_parent`)LEFT JOIN `new_category_lang` catl ON (catl.`id_category` = cat.`id_category` AND catl.`id_lang` = 7)  
+        WHERE 1  '.$filter.' 
+        ORDER BY scat.`level_depth` DESC) tmpTable WHERE 1 GROUP BY id_order_detail');
+        
             
             if(!empty($rows)){             
                 $subor = _PS_DOWNLOAD_DIR_.'energizer.csv';
@@ -643,121 +645,3 @@ $this->fields_list = $back2;
     
             
 }
-
-/*        
-        $this->_from = '(
-SELECT 
-	b.*,
-	catl. NAME AS category,
-
-IF (
-	scat.`id_category` > 2,
-	scatl. NAME,
-	"-"
-) AS sub_category,
-
- o.invoice_number,
- m. NAME AS manufacturer,
- o.date_add,
- acs. NAME AS id_address_category,
- ad.company,
- ad.city,
- ad.postcode,
- ad.address1,
- CONCAT_WS(
-	" ",
-	ai.company,
-	",",
-	ai.`lastname`,
-	ai.`firstname`,
-	",",
-	ai.`address1`,
-	",",
-	ai.`postcode`,
-	ai.`city`,
-	"(IČO:",
-	ai.`dni`,
-	")"
-) AS customer,
- ai.dni,
- ai.phone_mobile,
- c.email,
- e.lastname AS employee
-FROM
-	`new_order_detail` b
-LEFT JOIN `new_orders` o ON (b.`id_order` = o.`id_order`)
-LEFT JOIN `new_product` p ON (
-	b.`product_id` = p.`id_product`
-)
-LEFT JOIN `new_manufacturer` m ON (
-	m.`id_manufacturer` = p.`id_manufacturer`
-)
-LEFT JOIN `new_customer` c ON (
-	o.`id_customer` = c.`id_customer`
-)
-LEFT JOIN `new_address` ad ON (
-	o.`id_address_delivery` = ad.`id_address`
-)
-LEFT JOIN `new_address` ai ON (
-	o.`id_address_invoice` = ai.`id_address`
-)
-LEFT JOIN `new_address_category` ac ON (
-	o.`id_address_delivery` = ac.`id_address`
-)
-LEFT JOIN `new_address_categories` acs ON (
-	ac.`id_address_category` = acs.`id`
-)
-LEFT JOIN `new_employee` e ON (
-	c.`id_employee` = e.`id_employee`
-)
-
-LEFT JOIN `new_category_product` cp1 ON (
-	cp1.`id_product` = p.`id_product`
-)
-LEFT JOIN `new_category` cat ON (
-	cp1.`id_category` = cat.`id_category`
-)
-LEFT JOIN `new_category_lang` catl ON (
-	catl.`id_category` = cat.`id_category`
-	AND catl.`id_lang` = 7
-)
-LEFT JOIN `new_category_product` cp2 ON (
-	cp2.`id_product` = p.`id_product`
-)
-LEFT JOIN `new_category` scat ON (
-	cp2.`id_category` = scat.`id_category`
-)
-LEFT JOIN `new_category_lang` scatl ON (
-	scatl.`id_category` = scat.`id_category`
-	AND scatl.`id_lang` = 7
-)
-
-WHERE
-	1
-
-AND cat.`id_parent` = 2
-AND CASE
-WHEN scat.`id_parent` > 2 THEN
-	scat.`id_parent` > 2
-ELSE
-	scat.`id_parent` < 2
-END
-ORDER BY
-	scat.`id_category` DESC
-) as a';
-*/
-
-/*
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_product` cp1 ON (cp1.`id_product` = p.`id_product`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` cat ON (cp1.`id_category` = cat.`id_category` )';        
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_lang` catl ON (catl.`id_category` = cat.`id_category` AND catl.`id_lang` = 7) ';        
-
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_product` cp2 ON (cp2.`id_product` = p.`id_product`) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category` scat ON (cp2.`id_category` = scat.`id_category` ) ';        
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_lang` scatl ON (scatl.`id_category` = scat.`id_category` AND scatl.`id_lang` = 7) ';  
-*/
-
-
-//        $this->_where .= 'AND cat.`id_parent` = 2 AND CASE WHEN scat.`id_parent` > 2 THEN scat.`id_parent` > 2  ELSE scat.`id_parent` < 2 END ';
-
-?>

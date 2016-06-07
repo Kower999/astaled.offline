@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once(dirname(__FILE__)."/../../classes/phpmailer/class.phpmailer.php");
 require_once(dirname(__FILE__)."/../../classes/phpmailer/class.smtp.php");
 
