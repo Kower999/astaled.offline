@@ -257,7 +257,8 @@ class Product extends ProductCore
 					$address,
 					(int)Configuration::get('PS_ECOTAX_TAX_RULES_GROUP_ID')
 				);
-				$ecotax_tax_calculator = $tax_manager->getTaxCalculator();
+                $tax_manager->test = 1;
+				$ecotax_tax_calculator = $tax_manager->getTaxCalculator(1);
 				$price += $ecotax_tax_calculator->addTaxes($ecotax);
 			}
 			else

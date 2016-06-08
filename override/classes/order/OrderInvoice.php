@@ -44,6 +44,15 @@ class OrderInvoice extends OrderInvoiceCore
 			$row['id_address_delivery'] = $order->id_address_delivery;
 			$row['tax_rate'] = Tax::getProductTaxRate($row['product_id'],$order->id_address_invoice);
             
+            $address = new Address($order->id_address_invoice);
+			$tax_manager = TaxManagerFactory::getManager(
+					$address,
+					(int)Configuration::get('PS_ECOTAX_TAX_RULES_GROUP_ID')
+				);
+			$ecotax_tax_calculator = $tax_manager->getTaxCalculator();
+            $row['ecotax_wt'] = $ecotax_tax_calculator->addTaxes($row['ecotax']);
+            $row['ecotax_total'] = $row['product_quantity'] * $ecotax_tax_calculator->addTaxes($row['ecotax']);
+            $row['ecotax_tax'] = $row['ecotax_wt'] - $row['ecotax'];
 			/* Stock product */
 			$resultArray[(int)$row['id_order_detail']] = $row;
 		}
@@ -64,6 +73,25 @@ class OrderInvoice extends OrderInvoiceCore
         $this->total_paid_tax_excl = $order->total_paid_tax_excl;
         $this->total_paid_tax_incl = $order->total_paid_tax_incl;        
     }
+
+	public function getEcoTaxTaxesBreakdown()
+	{
+		$res = Db::getInstance()->executeS('
+		SELECT 20.0 as `rate`, SUM(`ecotax` * `product_quantity`) as `ecotax_tax_excl`, SUM(`ecotax` * `product_quantity`) as `ecotax_tax_incl`
+		FROM `'._DB_PREFIX_.'order_detail`
+		WHERE `id_order` = '.(int)$this->id_order.'
+		AND `id_order_invoice` = '.(int)$this->id.'
+		GROUP BY `ecotax_tax_rate`'
+		);
+
+		if ($res)
+			foreach ($res as &$row)
+			{
+				$row['ecotax_tax_incl'] = Tools::ps_round($row['ecotax_tax_excl'] + ($row['ecotax_tax_excl'] * $row['rate'] / 100), 2);
+				$row['ecotax_tax_excl'] = Tools::ps_round($row['ecotax_tax_excl'], 2);
+			}
+		return $res;
+	}
 
 }
 

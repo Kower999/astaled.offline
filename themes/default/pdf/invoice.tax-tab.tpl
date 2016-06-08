@@ -100,3 +100,4 @@
 </table>
 <!--  / TAX DETAILS -->
 {/if}
+
