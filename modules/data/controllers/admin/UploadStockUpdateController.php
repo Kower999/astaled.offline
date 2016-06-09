@@ -12,18 +12,9 @@ class UploadStockUpdateController extends DataController
 		$this->meta_title = $this->l('Import Objednávok').' - '.$this->module->displayName;
 		if (!$this->module->active)
 			Tools::redirectAdmin($this->context->link->getAdminLink('AdminHome'));
-            
-        if (!defined('_PS_STOCK_UPDATES_DIR_'))
-            define('_PS_STOCK_UPDATES_DIR_',            _PS_DOWNLOAD_DIR_.'updates/stock_updates/');
         
         if(!file_exists(_PS_STOCK_UPDATES_DIR_))
             mkdir(_PS_STOCK_UPDATES_DIR_,0755,true);                        
-                    
-            
-        if(ENT_XML1 != 16) {
-	       define('ENT_XML1', 16);            
-        }
-
 	}
 
     public function xml($file)

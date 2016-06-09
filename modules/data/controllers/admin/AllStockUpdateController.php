@@ -17,10 +17,6 @@ class AllStockUpdateController extends DataController
                                 
 		$this->addRowAction('delete');
             
-        if(ENT_XML1 != 16) {
-	       define('ENT_XML1', 16);            
-        }
-
 
 		$this->fields_list = array(
 		'id_stock_update' => array(

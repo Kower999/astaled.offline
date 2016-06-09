@@ -34,17 +34,8 @@ class ImportProductsController extends DataController
         } else {
             $this->warnings[] = Tools::displayError('Pravdepodobne nieste pripojený k internetu alebo nastala chyba pri komunikácii s online serverom');            
         }
-            
-            
-        if (!defined('_PS_ONLINE_DOWNLOAD_'))
-            define('_PS_ONLINE_DOWNLOAD_',         'http://astaled.sk/download/');
 
         $this->last_version = Configuration::get('LAST_UPDATE_PRODUCTS_VERSION');            
-
-        if(ENT_XML1 != 16) {
-	       define('ENT_XML1', 16);            
-        }
-            
 	}
     public function xml($file)
     {

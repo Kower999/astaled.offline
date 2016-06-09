@@ -12,9 +12,6 @@ class ExportProductsController extends DataController
 		$this->meta_title = $this->l('Export Produktov').' - '.$this->module->displayName;
 		if (!$this->module->active)
 			Tools::redirectAdmin($this->context->link->getAdminLink('AdminHome'));
-        if(ENT_XML1 != 16) {
-	       define('ENT_XML1', 16);            
-        }            
 	}
 	
 	public function initContent()

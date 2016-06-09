@@ -31,15 +31,6 @@ class StockUpdateController extends DataController
 		if (!$this->module->active)
 			Tools::redirectAdmin($this->context->link->getAdminLink('AdminHome'));
             
-        if (!defined('_PS_ADMIN_IMPORT_'))
-            define('_PS_ADMIN_IMPORT_',            _PS_ROOT_DIR_.'/shopadmin/import/');
-        if (!defined('_PS_ONLINE_DOWNLOAD_'))
-            define('_PS_ONLINE_DOWNLOAD_',         'http://www.astaled.sk/download/updates/stock_updates/');
-        if (!defined('_PS_ONLINE_DOWNLOAD_XML_'))
-            define('_PS_ONLINE_DOWNLOAD_XML_',         'http://www.astaled.sk/');
-            
-        if (!defined('_PS_WAMP_DIR_'))
-            define('_PS_WAMP_DIR_', realpath(_PS_ROOT_DIR_.'/../bin/'));
         if (!defined('_DROPBOX_BACKUP_DIR_')) {
             if(file_exists('C:\\Users\\Kower')){
                 $dumppath = 'C:\\Users\\Kower\\Dropbox\\Backup\\';
@@ -56,10 +47,6 @@ class StockUpdateController extends DataController
             define('_DROPBOX_BACKUP_DIR_', $dumppath);
         }        
 
-        if(ENT_XML1 != 16) {
-	       define('ENT_XML1', 16);            
-        }
-        
         $lov = $this->getUpdateVersion();
         
         if(!empty($lov)){
@@ -187,13 +174,13 @@ class StockUpdateController extends DataController
                             $imported = array();
         
                             try {
-                                $size = file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_PS_ONLINE_DOWNLOAD_.$fname, 'r'));
+                                $size = file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_PS_ONLINE_DOWNLOAD_STOCK_UPDATES_.$fname, 'r'));
                             } catch (Exception $e) {
-                                $this->errors[] = Tools::displayError('Chyba pri sťahovaní výdajky '.$cislo.' zo serveru. ('._PS_ONLINE_DOWNLOAD_.$fname.')');
+                                $this->errors[] = Tools::displayError('Chyba pri sťahovaní výdajky '.$cislo.' zo serveru. ('._PS_ONLINE_DOWNLOAD_STOCK_UPDATES_.$fname.')');
                                 return;
                             }
                             if(empty($size)){
-                                $this->errors[] = Tools::displayError('Chyba pri sťahovaní výdajky '.$cislo.' zo serveru. ('._PS_ONLINE_DOWNLOAD_.$fname.') NULLSIZE');
+                                $this->errors[] = Tools::displayError('Chyba pri sťahovaní výdajky '.$cislo.' zo serveru. ('._PS_ONLINE_DOWNLOAD_STOCK_UPDATES_.$fname.') NULLSIZE');
                                 return;                
                             }
         

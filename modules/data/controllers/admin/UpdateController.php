@@ -31,15 +31,6 @@ class UpdateController extends DataController
 		if (!$this->module->active)
 			Tools::redirectAdmin($this->context->link->getAdminLink('AdminHome'));
             
-//      define('_PS_DOWNLOAD_DIR_',         _PS_ROOT_DIR_.'/download/');               
-        if (!defined('_PS_ONLINE_DOWNLOAD_'))
-            define('_PS_ONLINE_DOWNLOAD_',         'http://astaled.sk/download/updates/');
-        if (!defined('_PS_ONLINE_SQL_DOWNLOAD_'))
-            define('_PS_ONLINE_SQL_DOWNLOAD_',         _PS_ONLINE_DOWNLOAD_.'sql_updates/');
-        if (!defined('_PS_ONLINE_PHP_DOWNLOAD_'))
-            define('_PS_ONLINE_PHP_DOWNLOAD_',         _PS_ONLINE_DOWNLOAD_.'onetime_php/');
-        if (!defined('_PS_WAMP_DIR_'))
-            define('_PS_WAMP_DIR_', realpath(_PS_ROOT_DIR_.'/../bin/'));
         if (!defined('_DROPBOX_BACKUP_DIR_')) {
             if(file_exists('C:\\Users\\Kower')){
                 $dumppath = 'C:\\Users\\Kower\\Dropbox\\Backup\\';
@@ -99,7 +90,7 @@ class UpdateController extends DataController
                 
             $fname = 'update_db.xml';
             
-            file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_PS_ONLINE_DOWNLOAD_.$fname, 'r'));
+            file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_PS_ONLINE_DOWNLOAD_.'updates/'.$fname, 'r'));
             
             clearstatcache();
             $fs = filesize(_PS_DOWNLOAD_DIR_.$fname);
@@ -221,7 +212,7 @@ class UpdateController extends DataController
                     }
                     // --------- end backup --------------------                    
             
-                    file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_PS_ONLINE_DOWNLOAD_.$fname, 'r'));
+                    file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_PS_ONLINE_DOWNLOAD_.'updates/'.$fname, 'r'));
             
                     $fs = filesize(_PS_DOWNLOAD_DIR_.$fname);        
                     if(file_exists(_PS_DOWNLOAD_DIR_.$fname) && !empty($fs)){
@@ -251,7 +242,7 @@ class UpdateController extends DataController
             
                 if(!empty($uf)) {
                     
-                    file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_PS_ONLINE_DOWNLOAD_.$fname, 'r'));
+                    file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_PS_ONLINE_DOWNLOAD_.'updates/'.$fname, 'r'));
             
                     $fs = filesize(_PS_DOWNLOAD_DIR_.$fname);        
                     if(file_exists(_PS_DOWNLOAD_DIR_.$fname) && !empty($fs)){

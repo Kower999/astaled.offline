@@ -20,10 +20,6 @@ class ExportOrdersController extends DataController
 		$this->meta_title = $this->l('Export Objednávok').' - '.$this->module->displayName;
 		if (!$this->module->active)
 			Tools::redirectAdmin($this->context->link->getAdminLink('AdminHome'));
-                        
-        if(ENT_XML1 != 16) {
-	       define('ENT_XML1', 16);            
-        }
 
         $lov = $this->getUpdateVersion();
         
@@ -35,31 +31,12 @@ class ExportOrdersController extends DataController
         }
         
         
-        if (!defined('_PS_EXPORTS_DIR_'))
-            define('_PS_EXPORTS_DIR_',            _PS_DOWNLOAD_DIR_.'updates/exports/');
         if(!file_exists(_PS_EXPORTS_DIR_)){
             if(!file_exists(_PS_DOWNLOAD_DIR_.'updates/'))
                 mkdir(_PS_DOWNLOAD_DIR_.'updates/');            
             mkdir(_PS_EXPORTS_DIR_);            
         }
-        
-        if (!defined('_PS_CUSTOMERS_DATA_'))
-            define('_PS_CUSTOMERS_DATA_',            _PS_EXPORTS_DIR_.'customers.data');
-        if (!defined('_PS_ADRESSES_DATA_'))
-            define('_PS_ADRESSES_DATA_',            _PS_EXPORTS_DIR_.'adresses.data');
-        if (!defined('_PS_ADRESSES_CATEGORY_DATA_'))
-            define('_PS_ADRESSES_CATEGORY_DATA_',            _PS_EXPORTS_DIR_.'adresses_category.data');
-        if (!defined('_PS_ADRESSES_MORE_DATA_'))
-            define('_PS_ADRESSES_MORE_DATA_',            _PS_EXPORTS_DIR_.'adresses_more.data');
-        if (!defined('_PS_ADRESSES_VISITS_DATA_'))
-            define('_PS_ADRESSES_VISITS_DATA_',            _PS_EXPORTS_DIR_.'adresses_visits.data');
-            
-        if (!defined('_PS_ORDERS_DATA_'))
-            define('_PS_ORDERS_DATA_',            _PS_EXPORTS_DIR_.'orders.data');
-
-        if (!defined('_PS_STOCK_DATA_'))
-            define('_PS_STOCK_DATA_',            _PS_EXPORTS_DIR_.'stock.data');
-        
+                
         if(empty($this->employee))
             $this->employee = $this->context->employee->id;
 	}
@@ -290,7 +267,7 @@ $this->fields_form = array(
     
     public function sendfiles(){
         // initialise the curl request
-        $request = curl_init('http://www.astaled.sk/mywebservice.php');
+        $request = curl_init(_ASTALED_ONLINE_ . '/mywebservice.php');
 
         $args = array();
         $args['customers'] = new CurlFile(_PS_CUSTOMERS_DATA_, 'application/octet-stream', 'customers.data');
@@ -406,7 +383,7 @@ $this->fields_form = array(
                                                 
         } else {
             $m = $ret; 
-            $this->email('kower99@gmail.com', 'Export objednávok neznáma chyba '. Context::getContext()->employee->id . ' - ' . Context::getContext()->employee->lastname . ' ' . Context::getContext()->employee->firstname, $m, Context::getContext()->employee->email);                                                
+            $this->email(_ASTALED_ADMIN_MAIL_, 'Export objednávok neznáma chyba '. Context::getContext()->employee->id . ' - ' . Context::getContext()->employee->lastname . ' ' . Context::getContext()->employee->firstname, $m, Context::getContext()->employee->email);                                                
             $this->email(_PS_ONLINE_MAIL_, 'Export objednávok neznáma chyba '. Context::getContext()->employee->id . ' - ' . Context::getContext()->employee->lastname . ' ' . Context::getContext()->employee->firstname, $m, Context::getContext()->employee->email);                                                
             $this->errors[] = Tools::displayError("Neznáma chyba exportu objednávok. \r\n Server vrátil nasledovné:\r\n".$ret);            
         }

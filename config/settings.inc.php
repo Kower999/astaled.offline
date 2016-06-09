@@ -16,3 +16,5 @@ define('_PS_CREATION_DATE_', '2013-01-10');
 define('_PS_VERSION_', '1.5.3.1');
 define('_RIJNDAEL_KEY_', 'e7OhWs0tiBxJjxAysVftub8089BB22in');
 define('_RIJNDAEL_IV_', 'wZJybmtBPKFxAOUWRtw6Iw==');
+
+include_once('astaled.settings.inc.php');

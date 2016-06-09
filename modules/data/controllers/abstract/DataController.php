@@ -22,10 +22,6 @@ abstract class DataController extends ModuleAdminController {
         if(empty($this->context->link))
             $this->context->link = new Link();  
             
-        if (!defined('_PS_ONLINE_MAIL_'))
-//            define('_PS_ONLINE_MAIL_',         'kower99@gmail.com');
-            define('_PS_ONLINE_MAIL_',         'marian.gabris.vega@gmail.com');
-
         $this->last_version = Configuration::get('LAST_UPDATE_VERSION');
             
                            				
@@ -36,7 +32,7 @@ abstract class DataController extends ModuleAdminController {
 
         unlink(_PS_DOWNLOAD_DIR_.$fname);
             
-        file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen('http://astaled.sk/download/updates/'.$fname, 'r'));
+        file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_ASTALED_ONLINE_ . '/download/updates/' . $fname, 'r'));
         $fs = filesize(_PS_DOWNLOAD_DIR_.$fname);
         
         if(file_exists(_PS_DOWNLOAD_DIR_.$fname) && !empty($fs)){
@@ -73,14 +69,14 @@ abstract class DataController extends ModuleAdminController {
         $mail->isSMTP(); // send via SMTP
         //IsSMTP(); // send via SMTP
         $mail->SMTPAuth = true; // turn on SMTP authentication
-        $mail->Username = "astaledonline@gmail.com"; // SMTP username
-        $mail->Password = "L83OwYky"; // SMTP password
+        $mail->Username = _ASTALED_SENDER_MAIL_; // SMTP username
+        $mail->Password = _ASTALED_SENDER_MAIL_PWD_; // SMTP password
         $webmaster_email = $from; //Reply to this email ID
 
         $email=$target; // Recipients email ID
-        $name="kower"; // Recipient's name
+        $name="Admin"; // Recipient's name
         $mail->From = $webmaster_email;
-        $mail->FromName = "AstaledOffline";
+        $mail->FromName = _ASTALED_OFFLINE_;
         $mail->AddAddress($email,$name);
         $mail->AddReplyTo($webmaster_email,"Webmaster");
         $mail->WordWrap = 50; // set word wrap

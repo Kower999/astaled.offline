@@ -14,9 +14,6 @@ class ParovaniePlatiebController extends DataController
 	{
 //         $this->table = 'order_detail';
 //         $this->className = 'Statistika1';
-        if(ENT_XML1 != 16) {
-	       define('ENT_XML1', 16);            
-        }
   
         $this->bulk_actions = null;
         $this->lang = false;
