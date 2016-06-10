@@ -29,8 +29,9 @@ class ImportProductsController extends DataController
         $lov = $this->getUpdateVersion();
         
         if(!empty($lov)){
-            if($lov != $this->last_version)
-                Tools::redirectAdmin($this->context->link->getAdminLink('Update') . "&presmerovanie=1&ver=".$lov);
+            if(_ASTALED_UPDATE_)
+                if($lov != $this->last_version)
+                    Tools::redirectAdmin($this->context->link->getAdminLink('Update') . "&presmerovanie=1&ver=".$lov);
         } else {
             $this->warnings[] = Tools::displayError('Pravdepodobne nieste pripojený k internetu alebo nastala chyba pri komunikácii s online serverom');            
         }

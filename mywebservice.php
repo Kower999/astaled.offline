@@ -63,27 +63,7 @@ if (!class_exists('AddressMoredata')) {
 
 
 
-if(!empty($_FILES)) {
-        if (!defined('_PS_EXPORTS_DIR_'))
-            define('_PS_EXPORTS_DIR_',            _PS_DOWNLOAD_DIR_.'updates/exports/');
-        
-        if (!defined('_PS_CUSTOMERS_DATA_'))
-            define('_PS_CUSTOMERS_DATA_',            _PS_EXPORTS_DIR_.'customers.data');
-        if (!defined('_PS_ADRESSES_DATA_'))
-            define('_PS_ADRESSES_DATA_',            _PS_EXPORTS_DIR_.'adresses.data');
-        if (!defined('_PS_ADRESSES_CATEGORY_DATA_'))
-            define('_PS_ADRESSES_CATEGORY_DATA_',            _PS_EXPORTS_DIR_.'adresses_category.data');
-        if (!defined('_PS_ADRESSES_MORE_DATA_'))
-            define('_PS_ADRESSES_MORE_DATA_',            _PS_EXPORTS_DIR_.'adresses_more.data');
-        if (!defined('_PS_ADRESSES_VISITS_DATA_'))
-            define('_PS_ADRESSES_VISITS_DATA_',            _PS_EXPORTS_DIR_.'adresses_visits.data');
-            
-        if (!defined('_PS_ORDERS_DATA_'))
-            define('_PS_ORDERS_DATA_',            _PS_EXPORTS_DIR_.'orders.data');
-            
-        if (!defined('_PS_STOCK_DATA_'))
-            define('_PS_STOCK_DATA_',            _PS_EXPORTS_DIR_.'stock.data');
-            
+if(!empty($_FILES)) {            
  
     $totals = array(
         'customers' => array('total' => 0, 'done' =>0),
