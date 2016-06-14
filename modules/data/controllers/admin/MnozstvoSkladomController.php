@@ -16,6 +16,25 @@ class MnozstvoSkladomController extends DataController
 		$this->meta_title = $this->l('Sklady OZ').' - '.$this->module->displayName;
 		if (!$this->module->active)
 			Tools::redirectAdmin($this->context->link->getAdminLink('AdminHome'));
+
+        $filter = '';
+        if(!empty($this->_filter)){
+            $filter = '&filter='.urlencode($this->_filter);
+        }        
+        
+		$this->toolbar_btn['filterok'] = array(
+			'href' => $this->context->link->getAdminLink('MnozstvoSkladom', true).'&filterok=1'.$filter,
+			'desc' => $this->l('0 - 1')
+		);
+		$this->toolbar_btn['filternok'] = array(
+			'href' => $this->context->link->getAdminLink('MnozstvoSkladom', true).'&filternok=1'.$filter,
+			'desc' => $this->l('1 - 2')
+		);
+
+		$this->toolbar_btn['filterbad'] = array(
+			'href' => $this->context->link->getAdminLink('MnozstvoSkladom', true).'&filterbad=1'.$filter,
+			'desc' => $this->l('2 - ...')
+		);
             
 	}
 
@@ -77,7 +96,16 @@ class MnozstvoSkladomController extends DataController
 		'quantity' => array(
 			'title' => $this->l('Množstvo'),
 			'align' => 'center',
-			'width' => 25
+			'width' => 25,
+			'filter_key' => 'a!quantity',
+            'filter_type' => 'int',
+		),
+		'sells' => array(
+			'title' => $this->l('Zásoba'),
+			'align' => 'center',
+			'width' => 25,
+            'type' => 'float',
+            'filter_type' => 'decimal',
 		),
 		);
         
@@ -100,15 +128,29 @@ class MnozstvoSkladomController extends DataController
         $this->isadmin = (Context::getContext()->employee->isLoggedBack() && !((Context::getContext()->employee->id_profile == 5) || (Context::getContext()->employee->id_profile == 6))); 
 
         if($this->isadmin) $this->fields_list = array_merge($this->fields_list,$admin);
+
+//        $now = date("Y-m-d") . " 23:59:59";                
+//        $start = date("Y-m-d", strtotime("-1 year",time())) . " 00:00:00";                                            
                                             
         $alias = 'a';
         $id_lang = $this->context->language->id;
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product_lang` b ON ('.$alias.'.`id_product` = b.`id_product` AND b.`id_lang` = '.$id_lang.' AND b.id_shop = 1) ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product` p ON '.$alias.'.`id_product` = p.`id_product` ';
-		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_lang` cl ON (p.`id_category_default` = cl.`id_category` AND b.`id_lang` = cl.`id_lang` AND cl.id_shop = 1) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product_lang` b ON (b.`id_product` = '.$alias.'.`id_product` AND b.`id_lang` = '.$id_lang.' AND b.id_shop = 1) ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product` p ON p.`id_product` = '.$alias.'.`id_product` ';
+		$this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'category_lang` cl ON (cl.`id_category` = p.`id_category_default` AND cl.`id_lang` = b.`id_lang` AND cl.id_shop = 1) ';
+//        $this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'order_detail` od ON (od.product_id = a.id_product AND od.product_attribute_id = a.id_product_attribute)';
+//        $this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'orders` o ON (o.id_order = od.id_order AND (o.date_add BETWEEN \''.$start.'\' AND \''.$now.'\'))';
+//        $this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'customer` c ON (c.id_customer = o.id_customer)';
+
 //        $this->_join .= 'LEFT JOIN `'._DB_PREFIX_.'product_vipprices` AS pvip ON a.id_product = pvip.id_product '; 
-		$this->_select .= 'cl.name AS `name_category`, b.name , p.ean13, p.wholesale_price, (p.wholesale_price * a.quantity) as wsp_total';
+
+//		$this->_select .= 'cl.name AS `name_category`, b.name , p.ean13, p.wholesale_price, (p.wholesale_price * a.quantity) as wsp_total, ( a.quantity / ( SUM(od.product_quantity) / 12 ) ) AS sell ';
+		$this->_select .= 'cl.name AS `name_category`, b.name , p.ean13, p.wholesale_price ';
+
         $this->_defaultOrderBy = 'a.id_mnozstvo_skladom';
+//        $this->_tmpTableSelect = ' ';
+//        $this->_tmpTableFilter = ' AND 1';
+        
+//        $this->_where .= " ";
 //        $this->_group .= ' GROUP BY a.id_product';
 /*
          $this->bulk_actions = array(
@@ -204,6 +246,54 @@ class MnozstvoSkladomController extends DataController
         $this->context->smarty->assign(array(
                 'isadmin' => $this->isadmin,
         ));
+
+        $now = date("Y-m-d") . " 23:59:59";                
+        $start = date("Y-m-d", strtotime("-1 year",time())) . " 00:00:00";
+
+
+        if(!empty($this->_list) && is_array($this->_list))
+            foreach($this->_list as $key => $row){
+                $id_prod = (int)$row['id_product'];
+                $id_prod_attribute = (int)$row['id_product_attribute'];
+                $id_employee = (int)$row['id_employee'];
+                
+                
+                $sells = Db::getInstance()->executeS("SELECT SUM(od.product_quantity) AS quantity FROM new_order_detail od
+                    LEFT JOIN new_orders o ON (o.id_order = od.id_order)
+                    LEFT JOIN new_customer c ON (c.id_customer = o.id_customer)
+                    WHERE od.product_id = $id_prod AND od.product_attribute_id = $id_prod_attribute AND c.id_employee = $id_employee AND (o.date_add BETWEEN '$start' AND '$now')");
+                
+                $sells = (int)$sells[0]['quantity'];
+
+                
+                if(empty($sells)) {
+                    if( (int)$row['quantity'] == 0 ) {
+                        $sells = 0;
+                    } else {
+                        $sells = 99;
+                    }
+                } else {
+                    $sells = $sells / 12;
+                    $sells = round($row['quantity'] / $sells, 2);
+//                    var_dump($sells);
+//                    die();
+                }
+                
+                $this->_list[$key]['sells'] = $sells;
+                
+                if($sells >= 0 && $sells <=1) $this->_list[$key]['color'] = "#B3D0A0";
+                if($sells > 1 && $sells <=2) $this->_list[$key]['color'] = "#FBBB79";
+                if($sells > 2) $this->_list[$key]['color'] = "#EFA3A3";
+                
+            }
+            
+        $this->context->smarty->assign(array(
+                'total2' => $total,
+        ));
+
+//var_dump($this->_list);
+//die();
+
 
     if($this->isadmin) {
 

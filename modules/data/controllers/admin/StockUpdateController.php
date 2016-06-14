@@ -270,6 +270,7 @@ class StockUpdateController extends DataController
                                     }
                     
                                     $this->email(_PS_ONLINE_MAIL_, 'Import výdajky '.$cislo.' OK', $m, Context::getContext()->employee->email);                                    
+                                    $this->email(Context::getContext()->employee->email, 'Import výdajky '.$cislo.' OK', $m, _PS_ONLINE_MAIL_);                                    
                                                         
                                                                                                 
                                 } else {
@@ -279,6 +280,7 @@ class StockUpdateController extends DataController
                                     $m .= Tools::displayError('Výdajka '.$cislo.$vydajka.' bola prázdna alebo poškodená. Nebolo čo importovať.') . "\r\n";
                     
                                     $this->email(_PS_ONLINE_MAIL_, 'Neúspešný import výdajky '.$cislo.'', $m, Context::getContext()->employee->email);                    
+                                    $this->email(Context::getContext()->employee->email, 'Neúspešný import výdajky '.$cislo.'', $m, _PS_ONLINE_MAIL_);                    
                                 }                                        
                             } else {
                                 $this->warnings[] = Tools::displayError('Niektoré produkty z výdajky '.$cislo.$vydajka.' neboli importované/nájdené.');
@@ -305,6 +307,7 @@ class StockUpdateController extends DataController
                                 }
                     
                                 $this->email(_PS_ONLINE_MAIL_, 'Import výdajky '.$cislo.' s chybami', $m, Context::getContext()->employee->email);                    
+                                $this->email(Context::getContext()->employee->email, 'Import výdajky '.$cislo.' s chybami', $m, _PS_ONLINE_MAIL_);                    
                                                                                                                   
                             }
                             Configuration::updateValue('LAST_STOCK_UPDATE', ''.$ver);

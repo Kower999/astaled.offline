@@ -269,6 +269,7 @@ $this->fields_form = array(
     public function sendfiles(){
         // initialise the curl request
         $request = curl_init(_ASTALED_ONLINE_ . '/mywebservice.php');
+
         $args = array();
         $args['customers'] = new CurlFile(_PS_CUSTOMERS_DATA_, 'application/octet-stream', 'customers.data');
         $args['adresses'] = new CurlFile(_PS_ADRESSES_DATA_, 'application/octet-stream', 'adresses.data');
@@ -284,7 +285,6 @@ $this->fields_form = array(
 
         // output the response
         curl_setopt($request, CURLOPT_RETURNTRANSFER, true);
-//        curl_setopt($request, CURLOPT_VERBOSE, true); // debug
         $ret = curl_exec($request);
         
         // close the session

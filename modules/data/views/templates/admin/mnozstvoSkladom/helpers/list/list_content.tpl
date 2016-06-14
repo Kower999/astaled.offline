@@ -31,8 +31,8 @@
 	<tr
 	{if $position_identifier}id="tr_{$id_category}_{$tr.$identifier}_{if isset($tr.position['position'])}{$tr.position['position']}{else}0{/if}"{/if}
 	class="{if $index is odd}alt_row{/if} {if $row_hover}row_hover{/if} xxx"
-	{if isset($tr.color) && $color_on_bg}style="background-color: {$tr.color}"{/if}
-	{if isset($tr.quantity)}{if $tr.quantity<0 }style="background-color: #EFA3A3"{/if}{/if}
+	{if isset($tr.color)}style="background-color: {$tr.color}"{/if}
+	{if isset($tr.quantity)}{if $tr.quantity<0 }style="background-color: #F5BABA"{/if}{/if}
     
 	>
     
@@ -149,14 +149,14 @@
 
 {if $isadmin}
 	<tr class="filter">
-        <td colspan="8">&nbsp;&nbsp;&nbsp;<b>Suma (strana)</b></td>
+        <td colspan="9">&nbsp;&nbsp;&nbsp;<b>Suma (strana)</b></td>
         <td class="right">
             <b>{if $total2}{displayPrice price=$total2 currency=$currency->id}{else}0,0{/if}</b>
         </td>
     </tr>
 
 	<tr class="filter">
-        <td colspan="8">&nbsp;&nbsp;&nbsp;<b>Suma (celkom)</b></td>
+        <td colspan="9">&nbsp;&nbsp;&nbsp;<b>Suma (celkom)</b></td>
         <td class="right">
             <b>{if isset($total)}{displayPrice price=$total currency=$currency->id}{else}0,0{/if}</b>
         </td>
