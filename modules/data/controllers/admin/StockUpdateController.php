@@ -219,7 +219,9 @@ class StockUpdateController extends DataController
 					                   $product = (int)Db::getInstance()->getValue("SELECT id_product FROM new_product WHERE ean13 = '".$ean."'");
                                        $sav = 0;
                                        $nav = 0;
+                                       $prd = null;
 					                   if ($product > 0) {
+					                        $prd = new Product($product);
 				                            $sav = StockAvailable::getQuantityAvailableByProduct($product);
                                             if(empty($sav)){
                                                 Db::getInstance()->execute('REPLACE INTO new_stock_available ( id_product, id_product_attribute, id_shop, id_shop_group, quantity, depends_on_stock, out_of_stock)
@@ -240,6 +242,8 @@ class StockUpdateController extends DataController
                                        
                                        if(empty($alldata[$ean])) {
                                             $alldata[$ean] = (array('amt' => $amnt, 'from' => $sav , 'to' => $nav));
+                                            if(!empty($prd))
+                                                $alldata[$ean]['name'] = trim($prd->name[$this->context->language->id]); 
                                        } else {                                        
                                             $alldata[$ean]['amt'] += $amnt;
                                             $alldata[$ean]['to'] = $nav;
@@ -258,7 +262,7 @@ class StockUpdateController extends DataController
                                     $this->confirmations[] = Tools::displayError('Všetky produkty z výdajky '.$cislo.$vydajka.' boli úspešne importované.');
                                     $this->confirmations[] = Tools::displayError('Importované produkty (EAN) ('.count($imported).'ks):');
                                     foreach($imported as $i){
-                                        $this->confirmations[] = Tools::displayError($i." importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n");
+                                        $this->confirmations[] = Tools::displayError($i." - ".$alldata[$i]['name']." - importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n");
                                     }
 
                                     $m = Tools::displayError('Oz: ' . Context::getContext()->employee->id . ' - ' . Context::getContext()->employee->lastname . ' ' . Context::getContext()->employee->firstname) . "\r\n";
@@ -266,7 +270,7 @@ class StockUpdateController extends DataController
                                     $m .= Tools::displayError('Importované produkty (EAN) ('.count($imported).'ks):') . "\r\n";
                                     
                                     foreach($imported as $i){
-                                        $m .= $i." importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n";
+                                        $m .= $i." - ".$alldata[$i]['name']." - importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n";
                                     }
                     
                                     $this->email(_PS_ONLINE_MAIL_, 'Import výdajky '.$cislo.' OK', $m, Context::getContext()->employee->email);                                    
@@ -289,7 +293,7 @@ class StockUpdateController extends DataController
                                 if(!empty($imported)){
                                     $this->warnings[] = Tools::displayError('Importované produkty (EAN) ('.count($imported).'ks):');
                                     foreach($imported as $i){
-                                        $this->warnings[] = Tools::displayError($i." importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n");
+                                        $this->warnings[] = Tools::displayError($i." - ".$alldata[$i]['name']." - importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n");
                                     }
                                 }
 
@@ -302,7 +306,7 @@ class StockUpdateController extends DataController
                                     $m .= "\r\n";
                                     $m .= Tools::displayError('Importované produkty (EAN) ('.count($imported).'ks):');
                                     foreach($imported as $i){
-                                        $m .= $i." importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n";
+                                        $m .= $i." - ".$alldata[$i]['name']." - importovaných ".$alldata[$i]['amt']."ks povodne skladom ".$alldata[$i]['from']."ks novy stav skladu ".$alldata[$i]['to']."ks\r\n";
                                     }
                                 }
                     
