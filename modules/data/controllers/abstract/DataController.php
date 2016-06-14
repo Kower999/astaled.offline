@@ -9,6 +9,8 @@ abstract class DataController extends ModuleAdminController {
     public $last_online_version;
 	
 	protected $errorMessages = '';
+
+    public $isadmin = false;    
 	
 	public function __construct() {
 		parent::__construct();
@@ -23,7 +25,8 @@ abstract class DataController extends ModuleAdminController {
             $this->context->link = new Link();  
             
         $this->last_version = Configuration::get('LAST_UPDATE_VERSION');
-            
+
+        $this->isadmin = (Context::getContext()->employee->isLoggedBack() && !((Context::getContext()->employee->id_profile == 5) || (Context::getContext()->employee->id_profile == 6)));             
                            				
 	}
 

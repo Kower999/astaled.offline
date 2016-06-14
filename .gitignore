@@ -46,3 +46,7 @@ Network Trash Folder
 Temporary Items
 .apdisk
 cache/
+*.xls
+*.dat
+*.xml
+*.xml

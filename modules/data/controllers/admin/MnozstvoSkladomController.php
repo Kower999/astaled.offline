@@ -2,9 +2,7 @@
 include_once dirname(__FILE__).'/../abstract/DataController.php';
 
 class MnozstvoSkladomController extends DataController
-{
-    public $isadmin = false;
-    
+{    
 	public function __construct()
 	{
 		$this->display = '';
@@ -22,6 +20,7 @@ class MnozstvoSkladomController extends DataController
             $filter = '&filter='.urlencode($this->_filter);
         }        
         
+        $this->toolbar_btn = array();
 		$this->toolbar_btn['filterok'] = array(
 			'href' => $this->context->link->getAdminLink('MnozstvoSkladom', true).'&filterok=1'.$filter,
 			'desc' => $this->l('0 - 1')
@@ -44,6 +43,8 @@ class MnozstvoSkladomController extends DataController
 		$error_msg = '';
 		
 		parent::initContent();
+        
+        unset($this->toolbar_btn['new']);
         $this->content .= $this->initList();
 		
 		$this->assign('content', $this->content);
@@ -54,17 +55,8 @@ class MnozstvoSkladomController extends DataController
     public function initList()
     {
         $ret = '';
-//        $this->table = 'product';
-//        $this->identifier = 'id_product';
 
 		$this->fields_list = array(
-/*        
-		'id_mnozstvo_skladom' => array(
-			'title' => $this->l('ID'),
-			'align' => 'center',
-			'width' => 25
-		),
-*/        
 		'id_employee' => array(
 			'title' => $this->l('ID OZ'),
 			'align' => 'center',
@@ -124,9 +116,7 @@ class MnozstvoSkladomController extends DataController
 			'width' => 100,
 		),
 		);
-        
-        $this->isadmin = (Context::getContext()->employee->isLoggedBack() && !((Context::getContext()->employee->id_profile == 5) || (Context::getContext()->employee->id_profile == 6))); 
-
+                
         if($this->isadmin) $this->fields_list = array_merge($this->fields_list,$admin);
 
 //        $now = date("Y-m-d") . " 23:59:59";                
@@ -172,7 +162,8 @@ class MnozstvoSkladomController extends DataController
 
         
         // Adds an Edit button for each result
-        $this->toolbar_btn = $toolbar;
+        if(!empty($toolbar))
+            $this->toolbar_btn = $toolbar;
         $this->lang = $lang;
 
   		if (!($this->fields_list && is_array($this->fields_list)))
@@ -365,6 +356,7 @@ $this->fields_list = $back2;
             
         } // end if isadmin
         
+        $helper->toolbar_btn = $this->toolbar_btn;
         
 		$list = $helper->generateList($this->_list, $this->fields_list);
         $this->lang = false;
