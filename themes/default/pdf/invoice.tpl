@@ -90,7 +90,15 @@
 				{cycle values='#FFF,#EFEFEF' assign=bgcolor}
 				<tr style="line-height:6px;" {if $key}class="bordertop2"{/if}>
 					<td class="c1 left">{if isset($order_detail.product_ean13) && !empty($order_detail.product_ean13)}{$order_detail.product_ean13}{/if}</td>
-					<td class="c2 left">{$order_detail.product_name}</td>
+					<td class="c2 left">{$order_detail.product_name}
+                        {if isset($order_detail.ecotax2)}
+                        {if !empty($order_detail.ecotax2)}
+                        {if $order_detail.ecotax2>0}
+					       <br /><span style="font-size: 6pt;">{l s='Recyklačný poplatok' pdf='true'} {displayPrice currency=$order->id_currency price=$order_detail.ecotax2} {l s='je zahrnutý v cene produktu (bez DPH)' pdf='true'}</span>
+                        {/if}                    
+                        {/if}                    
+                        {/if}                    
+                    </td>
 					<td class="c8 center">{$order_detail.product_quantity}</td>
 					<td class="c3 right">{displayPrice currency=$order->id_currency price=$order_detail.unit_price_tax_excl}</td>
 					<td class="c4 right">{displayPrice currency=$order->id_currency price=$order_detail.unit_price_tax_incl}</td>

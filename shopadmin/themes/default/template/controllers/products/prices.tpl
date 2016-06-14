@@ -260,6 +260,17 @@ $(document).ready(function () {
 <!--			<p class="preference_description">{l s='The wholesale price at which you bought this product'}</p> -->
 		</td>
 	</tr>
+
+	<tr>
+		<td class="col-left">
+			{include file="controllers/products/multishop/checkbox.tpl" field="ecot" type="default"}
+			<label>{l s='Eco-tax (tax incl.):'}</label>
+		</td>
+		<td>
+			{$currency->prefix}<input size="11" maxlength="14" id="ecotax2" name="ecotax2" type="text" value="{$product->ecotax2|string_format:'%.2f'}"/>{$currency->suffix}
+			<span style="margin-left:10px">({l s='already included in price'})</span>
+		</td>
+	</tr>
     
 </table>
 <div class="separation"></div>

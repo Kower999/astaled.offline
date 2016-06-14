@@ -7,7 +7,7 @@ class Product extends ProductCore
     
 	public $cena_2;
 	public $provizia;
-    
+	public $ecotax2;    
 
 	public function __construct($id_product = null, $full = false, $id_lang = null, $id_shop = null, Context $context = null)
 	{
@@ -22,6 +22,8 @@ class Product extends ProductCore
                 $this->cena_2 = (float)$pr['cena_2'];
             if(!empty($pr['provizia']))
                 $this->provizia = (float)$pr['provizia'];
+            if(!empty($pr['ecotax2']))
+                $this->ecotax2 = (float)$pr['ecotax2'];
           }
 		}
 	}
@@ -35,6 +37,7 @@ class Product extends ProductCore
         $p->id_product = $this->id;
         $p->cena_2 = $this->cena_2;			
         $p->provizia = $this->provizia;
+        $p->ecotax2 = $this->ecotax2;
         $p->add();        			
 		return true;
 	}
@@ -48,12 +51,14 @@ class Product extends ProductCore
             $p = new Provisions((int)$idp);
             $p->cena_2 = $this->cena_2;			
             $p->provizia = $this->provizia;
+            $p->ecotax2 = $this->ecotax2;
             $p->update();        			            
         } else {
             $p = new Provisions();
             $p->id_product = $this->id;
             $p->cena_2 = $this->cena_2;			
             $p->provizia = $this->provizia;
+            $p->ecotax2 = $this->ecotax2;
             $p->add();        			            
         }
 

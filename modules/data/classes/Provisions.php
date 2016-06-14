@@ -4,6 +4,7 @@ class Provisions extends ObjectModel {
 	public $id_product;
 	public $cena_2;
 	public $provizia;
+	public $ecotax2;
 	
 	public static $definition = array(
 		'primary' => 'id_product_provisions',
@@ -12,6 +13,7 @@ class Provisions extends ObjectModel {
 			'id_product' => 	     array('type' => self::TYPE_INT, 'required' => false, 'size' => 11),
 			'cena_2' =>	             array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat'),
 			'provizia' =>	         array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat'),			
+			'ecotax2' =>	         array('type' => self::TYPE_FLOAT, 'validate' => 'isFloat'),			
 		)        
 	);
     
@@ -22,7 +24,7 @@ class Provisions extends ObjectModel {
     }
 
     static public function getByIdProduct($id_product){
-        $sql = 'SELECT id_product_provisions, cena_2, provizia FROM `'._DB_PREFIX_.'product_provisions` WHERE id_product = '.$id_product;
+        $sql = 'SELECT id_product_provisions, cena_2, provizia, ecotax2 FROM `'._DB_PREFIX_.'product_provisions` WHERE id_product = '.$id_product;
         $ret = Db::getInstance()->getRow($sql);
         return $ret;
     }

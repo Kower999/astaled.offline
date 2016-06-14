@@ -1,7 +1,7 @@
 <?php
 if(ENT_XML1 != 16) { define('ENT_XML1', 16); }
 
-define('_ASTALED_UPDATE_',              true);
+define('_ASTALED_UPDATE_',              false);
 define('_ASTALED_ADMIN_MAIL_',          'kower99@gmail.com');
 if(_PS_MODE_DEV_) {
     define('_PS_ONLINE_MAIL_',          'kower99@gmail.com');        

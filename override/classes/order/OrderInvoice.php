@@ -16,7 +16,7 @@ class OrderInvoice extends OrderInvoiceCore
 		$customized_datas = Product::getAllCustomizedDatas($order->id_cart);
 
 		$resultArray = array();
-		foreach ($products as $row)
+		foreach ($products as $key => $row)
 		{
 			// Change qty if selected
 			if ($selectedQty)
@@ -54,6 +54,8 @@ class OrderInvoice extends OrderInvoiceCore
             $row['ecotax_total'] = $row['product_quantity'] * $ecotax_tax_calculator->addTaxes($row['ecotax']);
             $row['ecotax_tax'] = $row['ecotax_wt'] - $row['ecotax'];
 			/* Stock product */
+            $p = new Product((int)$row['product_id']);
+            $row['ecotax2'] = $p->ecotax2;
 			$resultArray[(int)$row['id_order_detail']] = $row;
 		}
 

@@ -49,7 +49,7 @@ class AdminProductsController extends AdminProductsControllerCore
 			'width' => 90,
 			'type' => 'price',
 			'align' => 'right',
-			'filter_key' => 'a!price'
+			'filter_key' => 'a!wholesale_price'
 		  );    
             
         }        
@@ -156,9 +156,11 @@ class AdminProductsController extends AdminProductsControllerCore
 
 		$_POST['cena_2'] = empty($_POST['cena_2']) ? '0' : str_replace(',', '.', $_POST['cena_2']);
 		$_POST['provizia'] = empty($_POST['provizia']) ? '0' : str_replace(',', '.', $_POST['provizia']);
+		$_POST['ecotax2'] = empty($_POST['ecotax2']) ? '0' : str_replace(',', '.', $_POST['ecotax2']);
 
 		$object->cena_2 = (float)Tools::getValue('cena_2');
 		$object->provizia = (float)Tools::getValue('provizia');
+		$object->ecotax2 = (float)Tools::getValue('ecotax2');
 //        var_dump($object);
 	}
 

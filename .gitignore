@@ -50,3 +50,6 @@ cache/
 *.dat
 *.xml
 *.xml
+*.sql
+config/astaled.settings.inc.php
+config/astaled.settings.inc.php
