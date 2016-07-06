@@ -30,7 +30,7 @@
 {foreach $list AS $index => $tr}
 	<tr
 	{if $position_identifier}id="tr_{$id_category}_{$tr.$identifier}_{if isset($tr.position['position'])}{$tr.position['position']}{else}0{/if}"{/if}
-	class="{if $index is odd}alt_row{/if} {if $row_hover}row_hover{/if} xxx"
+	class="{if $index is odd}alt_row{/if} {if $row_hover}row_hover{/if}"
 	{if isset($tr.color)}style="background-color: {$tr.color}"{/if}
 	{if isset($tr.quantity)}{if $tr.quantity<0 }style="background-color: #F5BABA"{/if}{/if}
     

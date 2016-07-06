@@ -275,7 +275,6 @@ class Order extends OrderCore
 	/* DOES delete the product */
 	protected function _deleteProduct($orderDetail, $quantity)
 	{
-
 		$product_price_tax_excl = $orderDetail->unit_price_tax_excl * $quantity;
 		$product_price_tax_incl = Tools::getPriceWT($product_price_tax_excl);
 		
@@ -566,11 +565,15 @@ class Order extends OrderCore
 
         $ret = parent::delete();        
 
+        $this->context->controller->controller_myaction = 'Action_' . __METHOD__;
+
         if(!empty($result) && is_array($result)){
             foreach($result as $od){
                 StockAvailable::updateQuantity((int)$od['product_id'], (int)$od['product_attribute_id'], (int)$od['product_quantity']);                
             }
         }        
+
+        unset($this->context->controller->controller_myaction);
 
         return $ret;       
     }

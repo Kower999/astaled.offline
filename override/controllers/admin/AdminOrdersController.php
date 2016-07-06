@@ -655,6 +655,8 @@ class AdminOrdersController extends AdminOrdersControllerCore
 
 	public function ajaxProcessAddProductOnOrder()
 	{
+        $this->context->controller->controller_myaction = 'Action_' . __METHOD__;
+	   
 		// Load object
 		$order = new Order((int)Tools::getValue('id_order'));
 		if (!Validate::isLoadedObject($order))
@@ -912,7 +914,8 @@ class AdminOrdersController extends AdminOrdersControllerCore
         $tpl->cached->valid = false;
         $tplout = $tpl->fetch();
         $this->context->smarty->caching = 1;
-        
+
+        unset($this->context->controller->controller_myaction);        
 
 		die(Tools::jsonEncode(array(
 			'result' => true,
@@ -999,6 +1002,19 @@ class AdminOrdersController extends AdminOrdersControllerCore
             } else die('empty respond');
         }
         
+
+		if (Tools::isSubmit('submitAddOrder') && ($id_cart = Tools::getValue('id_cart')) &&
+			($module_name = Tools::getValue('payment_module_name')) &&
+			($id_order_state = Tools::getValue('id_order_state')) && Validate::isModuleName($module_name))
+		{
+            $this->context->controller->controller_myaction = 'Action_submitAddOrder';
+
+            parent::postProcess();
+
+            unset($this->context->controller->controller_myaction);
+            
+            return;
+		}
         
 		if (Tools::isSubmit('submitGenerateInvoice') && isset($order))
 		{
@@ -1015,6 +1031,14 @@ class AdminOrdersController extends AdminOrdersControllerCore
             parent::postProcess();
 		}                
     }
+
+	protected function reinjectQuantity($order_detail, $qty_cancel_product)
+	{
+        $this->context->controller->controller_myaction = 'Action_' . __METHOD__;
+        parent::reinjectQuantity($order_detail, $qty_cancel_product);
+        unset($this->context->controller->controller_myaction);
+	}
+    
 
 	public function ajaxProcessEditProductOnOrder()
 	{
@@ -1145,7 +1169,11 @@ class AdminOrdersController extends AdminOrdersControllerCore
 		}
 
 		// Update product available quantity
+        $this->context->controller->controller_myaction = 'Action_' . __METHOD__;
+
 		StockAvailable::updateQuantity($order_detail->product_id, $order_detail->product_attribute_id, ($old_quantity - $order_detail->product_quantity), $order->id_shop);
+
+        unset($this->context->controller->controller_myaction);
 
 		$products = $this->getProducts($order);
 		// Get the last product
@@ -1215,7 +1243,9 @@ class AdminOrdersController extends AdminOrdersControllerCore
 
 		$this->doDeleteProductLineValidation($order_detail, $order);
 
+        $this->context->controller->controller_myaction = 'Action_' . __METHOD__;
         $order->mydeleteProduct($order_detail, $order_detail->product_quantity);
+        unset($this->context->controller->controller_myaction);
 
 		$res &= $order_detail->delete();
 
@@ -1271,7 +1301,6 @@ class AdminOrdersController extends AdminOrdersControllerCore
 			'shipping_html' => $this->createTemplate('_shipping.tpl')->fetch()
 		)));
 	}
-
 
 }
 

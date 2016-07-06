@@ -5,7 +5,7 @@ if (!defined('_PS_VERSION_'))
 
 class Data extends Module {
     
-    public $classes = array('Provisions','Imports','VIPPrices','PSWebServiceLibrary','Online','MnozstvoSkladom','StockUpdate','ImportovaneVydajky'/*,'RecyPop'*/);
+    public $classes = array('Provisions','Imports','VIPPrices','PSWebServiceLibrary','Online','MnozstvoSkladom','StockUpdate','StockAvailableLog','ImportovaneVydajky'/*,'RecyPop'*/);
     
     /**
      * ParentTab => array (
@@ -196,6 +196,20 @@ class Data extends Module {
 			  `ean` varchar(20) NOT NULL,
 			  `imported` int(11)
 			) ENGINE='._MYSQL_ENGINE_.' DEFAULT CHARSET=utf8;';
+            
+        $this->tables[_DB_PREFIX_.'stock_available_log'] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'stock_available_log` (
+                `id_stock_available_log` int(10) unsigned NOT NULL AUTO_INCREMENT,
+                `id_employee` int(10) unsigned DEFAULT NULL,
+                `action_name` varchar(255) NOT NULL,
+                `action_done_by_id_employee` int(10) unsigned NOT NULL,
+                `action_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                `sa_from` int(11) NOT NULL,
+                `sa_to` int(11) NOT NULL,
+                `sa_change` int(11) NOT NULL,
+                `id_product` int(10) unsigned DEFAULT NULL,
+                `id_product_attribute` int(10) unsigned DEFAULT 0,
+                PRIMARY KEY (`id_stock_available_log`)
+                ) ENGINE='._MYSQL_ENGINE_.'  DEFAULT CHARSET=utf8;';    
 /*            
         $this->tables[_DB_PREFIX_.'product_recypop'] = 'CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'product_recypop` (
             `id_recypop`  int UNSIGNED NOT NULL AUTO_INCREMENT ,
@@ -211,10 +225,11 @@ class Data extends Module {
             PRIMARY KEY (`id_poplatok`)
             );';
 */            
+//$this->registerHook('actionUpdateQuantity');
 	}
 
 	public function install() {
-		if(!parent::install() OR !$this->installDatabase() OR !$this->createMenu() /*OR !$this->registerHook('actionCustomerAccountAdd')*/)
+		if(!parent::install() OR !$this->installDatabase() OR !$this->createMenu() OR !$this->registerHook('actionUpdateQuantity') /*OR !$this->registerHook('actionCustomerAccountAdd')*/)
 			return false;
         $this->setMenuAccess();            
 		return true;
@@ -224,6 +239,32 @@ class Data extends Module {
 		if(!parent::uninstall() OR !$this->uninstallDatabase() OR !$this->deleteMenu())
 			return false;
 		return true;
+	}
+
+	public function hookActionUpdateQuantity($params)
+	{
+	   if(!empty($params)) {
+	       extract($params);	       
+	   } else {
+	       return ;
+	   }
+       
+       if(isset($this->context->controller->controller_myaction)){
+            $action = $this->context->controller->controller_myaction;                
+       } else {
+            $action = $this->context->controller->controller_name;        
+       }
+       
+       $sal = new StockAvailableLog();
+       $sal->action_done_by_id_employee = $this->context->employee->id;
+       $sal->action_name = $action;
+       $sal->action_date = date("Y-m-d H:i:s");
+       $sal->sa_from = $before;
+       $sal->sa_to = $after;
+       $sal->sa_change = $change;
+       $sal->id_product = $id_product;
+       $sal->id_product_attribute = $id_product_attribute;
+       $sal->save();
 	}
     	
 	public function installDatabase()

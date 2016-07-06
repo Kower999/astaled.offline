@@ -231,7 +231,10 @@ class StockUpdateController extends DataController
 	                                               SELECT id_product, 0 AS id_product_attribute, 1 AS id_warehouse, "" AS location
                                                    FROM new_product WHERE id_product = '.$product) ;                               
                                             }
+                                            $this->context->controller->controller_myaction = 'Action_' . __METHOD__;
 					                        $success = StockAvailable::updateQuantity($product,null,$amnt);
+                                            unset($this->context->controller->controller_myaction);
+
                                             if($success === false){
                                               $notimp[] = $ean;
                                             } else {
