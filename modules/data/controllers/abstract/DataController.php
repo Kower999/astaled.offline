@@ -29,6 +29,27 @@ abstract class DataController extends ModuleAdminController {
         $this->isadmin = (Context::getContext()->employee->isLoggedBack() && !((Context::getContext()->employee->id_profile == 5) || (Context::getContext()->employee->id_profile == 6)));             
                            				
 	}
+    
+    public static function defineDropbox()
+    {
+        if (!defined('_DROPBOX_BACKUP_DIR_')) {
+            if(file_exists('C:\\Users\\Kower')){
+                $dumppath = 'C:\\Users\\Kower\\Dropbox\\Backup\\';
+            } else if(file_exists('C:\\backup')){
+                $dumppath = 'C:\\backup\\Dropbox\\Backup\\';
+            } else if(file_exists('C:\\Users\\admin')){
+                $dumppath = 'C:\\Users\\admin\\Dropbox\\Backup\\';
+            } else {                
+                $dumppath = Configuration::get('DROPBOX_DIR');
+                if(empty($dumppath) || !file_exists($dumppath)) {
+                    $dumppath = $this->search( 'C:\\Users\\','Dropbox');
+                    Configuration::updateValue('DROPBOX_DIR', $dumppath);                                          
+                }
+                $dumppath .= '\\Backup\\';
+            }            
+            define('_DROPBOX_BACKUP_DIR_', $dumppath);
+        }
+    }
 
     public function getUpdateVersion(){
         $fname = 'update_db.xml';

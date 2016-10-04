@@ -24,28 +24,14 @@ class UpdateController extends DataController
 			)
 			)
 		);
-
+        
 		parent::__construct();
         
 		$this->meta_title = $this->l('Aktualizácia systému').' - '.$this->module->displayName;
 		if (!$this->module->active)
 			Tools::redirectAdmin($this->context->link->getAdminLink('AdminHome'));
             
-        if (!defined('_DROPBOX_BACKUP_DIR_')) {
-            if(file_exists('C:\\Users\\Kower')){
-                $dumppath = 'C:\\Users\\Kower\\Dropbox\\Backup\\';
-            } else if(file_exists('C:\\Users\\admin')){
-                $dumppath = 'C:\\Users\\admin\\Dropbox\\Backup\\';
-            } else {                
-                $dumppath = Configuration::get('DROPBOX_DIR');
-                if(empty($dumppath) || !file_exists($dumppath)) {
-                    $dumppath = $this->search( 'C:\\Users\\','Dropbox');
-                    Configuration::updateValue('DROPBOX_DIR', $dumppath);                                          
-                }
-                $dumppath .= '\\Backup\\';
-            }            
-            define('_DROPBOX_BACKUP_DIR_', $dumppath);
-        }
+        DataController::defineDropbox();
 
 //        if (Context::getContext()->employee->isLoggedBack() && (Context::getContext()->employee->id_profile != 5) ) {                            
         if (Context::getContext()->employee->isLoggedBack()) {                            
