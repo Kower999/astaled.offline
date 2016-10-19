@@ -419,9 +419,11 @@ function dic($ret){
 }
 
 function stf($c,$s){
-    $str = mb_substr($s, 0, $c);
-//    return sprintf("%-$c"."s", iconv("UTF-8", "ISO-8859-2", $str));// ($str,'UTF-8','CP1252'));/*.str_repeat(' ',$c-(mb_strlen(sprintf("%-$c"."s",$str),'UTF-8')))*/;
-    $ret = sprintf("%-$c"."s", iconv("UTF-8", "CP1250", $str));// ($str,'UTF-8','CP1252'));/*.str_repeat(' ',$c-(mb_strlen(sprintf("%-$c"."s",$str),'UTF-8')))*/;
+    $str = iconv("UTF-8", "CP1250", trim($s));
+//    $str = mb_substr($str, 0, $c );
+    $str = mb_strcut($str, 0, $c );
+    //    return sprintf("%-$c"."s", iconv("UTF-8", "ISO-8859-2", $str));// ($str,'UTF-8','CP1252'));/*.str_repeat(' ',$c-(mb_strlen(sprintf("%-$c"."s",$str),'UTF-8')))*/;
+    $ret = sprintf("%-$c"."s", $str); // ($str,'UTF-8','CP1252'));/*.str_repeat(' ',$c-(mb_strlen(sprintf("%-$c"."s",$str),'UTF-8')))*/;
     return $ret;
 }
 
