@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2017-01-10 14:17:59
-         compiled from "C:\wamp\www\shopadmin/themes/default\template\helpers\list\list_header.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1815154efcb0711e1a8-58726358%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.8, created on 2017-01-10 15:54:01
+         compiled from "C:\wamp\www\modules\data\views\templates\admin\mnozstvoSkladom\helpers\list\list_header.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:232635874f589d1f476-99250803%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    'b9db66ea3f4323f38aaad3b2225360aa461c90ef' => 
+    'bad46fc4161a3d0c2db9ad68f7c67560c0d6b71a' => 
     array (
-      0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\helpers\\list\\list_header.tpl',
-      1 => 1449845523,
+      0 => 'C:\\wamp\\www\\modules\\data\\views\\templates\\admin\\mnozstvoSkladom\\helpers\\list\\list_header.tpl',
+      1 => 1484014165,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1815154efcb0711e1a8-58726358',
+  'nocache_hash' => '232635874f589d1f476-99250803',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_54efcb07469261_98276134',
   'variables' => 
   array (
     'simple_header' => 0,
@@ -31,6 +29,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'name_controller' => 0,
     'hookName' => 0,
     'action' => 0,
+    'filter_stav' => 0,
     'page' => 0,
     'total_pages' => 0,
     'pagination' => 0,
@@ -52,8 +51,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'option_display' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_5874f58a2ea882_46075717',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_54efcb07469261_98276134')) {function content_54efcb07469261_98276134($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_escape')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.escape.php';
+<?php if ($_valid && !is_callable('content_5874f58a2ea882_46075717')) {function content_5874f58a2ea882_46075717($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_escape')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.escape.php';
 ?>
 
 <?php if (!$_smarty_tpl->tpl_vars['simple_header']->value){?>
@@ -139,6 +140,8 @@ if (!empty($_capture_buffer)) {
 	<input type="hidden" id="submitFilter<?php echo $_smarty_tpl->tpl_vars['table']->value;?>
 " name="submitFilter<?php echo $_smarty_tpl->tpl_vars['table']->value;?>
 " value="0"/>
+	<input type="hidden" id="MnozstvoSkladomFilter_stav" name="MnozstvoSkladomFilter_stav" value="<?php echo $_smarty_tpl->tpl_vars['filter_stav']->value;?>
+"/>
 <?php }?>
 	<table class="table_grid" name="list_table">
 		<?php if (!$_smarty_tpl->tpl_vars['simple_header']->value){?>
@@ -177,7 +180,7 @@ $_smarty_tpl->tpl_vars['value']->_loop = true;
 "<?php if ($_smarty_tpl->tpl_vars['selected_pagination']->value==$_smarty_tpl->tpl_vars['value']->value){?> selected="selected" <?php }elseif($_smarty_tpl->tpl_vars['selected_pagination']->value==null&&$_smarty_tpl->tpl_vars['value']->value==$_smarty_tpl->tpl_vars['pagination']->value[1]){?> selected="selected2"<?php }?>><?php echo intval($_smarty_tpl->tpl_vars['value']->value);?>
 </option>
 							<?php } ?>
-                                <option value="999999"<?php if ($_smarty_tpl->tpl_vars['selected_pagination']->value=='999999'){?> selected="selected" <?php }?>><?php echo smartyTranslate(array('s'=>'VÅ¡etko'),$_smarty_tpl);?>
+                                <option value="999999"<?php if ($_smarty_tpl->tpl_vars['selected_pagination']->value=='999999'){?> selected="selected" <?php }?>><?php echo smartyTranslate(array('s'=>'Všetko'),$_smarty_tpl);?>
 </option>                            
 						</select>
 						/ <?php echo $_smarty_tpl->tpl_vars['list_total']->value;?>

@@ -1,22 +1,20 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2017-01-10 14:18:00
-         compiled from "C:\wamp\www\shopadmin/themes/default\template\helpers\list\list_content.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:1795654eff2c6293f15-28256200%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /* Smarty version Smarty-3.1.8, created on 2017-01-10 14:18:37
+         compiled from "C:\wamp\www\shopadmin\themes\default\template\controllers\orders\helpers\list\list_content.tpl" */ ?>
+<?php /*%%SmartyHeaderCode:130885874df2d107ca1-56632897%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
-    '0faadb598b7054b73a935a68d154908bef5190b9' => 
+    '0f4afe50206ead368b3872df90d5e01a81a4dab5' => 
     array (
-      0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\helpers\\list\\list_content.tpl',
-      1 => 1449849314,
+      0 => 'C:\\wamp\\www\\shopadmin\\themes\\default\\template\\controllers\\orders\\helpers\\list\\list_content.tpl',
+      1 => 1449845533,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '1795654eff2c6293f15-28256200',
+  'nocache_hash' => '130885874df2d107ca1-56632897',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_54eff2c65bca80_67603619',
   'variables' => 
   array (
     'list' => 0,
@@ -47,10 +45,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'oz' => 0,
     'mytotal2' => 0,
     'mytotal' => 0,
+    'total5' => 0,
+    'currency' => 0,
+    'total6' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_5874df2d6bb9d3_86685886',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_54eff2c65bca80_67603619')) {function content_54eff2c65bca80_67603619($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_escape')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.escape.php';
+<?php if ($_valid && !is_callable('content_5874df2d6bb9d3_86685886')) {function content_5874df2d6bb9d3_86685886($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_escape')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.escape.php';
 if (!is_callable('smarty_function_mycount')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\function.mycount.php';
 ?>
 <tbody>
@@ -74,8 +77,6 @@ _<?php if (isset($_smarty_tpl->tpl_vars['tr']->value['position']['position'])){?
 	class="<?php if ((1 & $_smarty_tpl->tpl_vars['index']->value)){?>alt_row<?php }?> <?php if ($_smarty_tpl->tpl_vars['row_hover']->value){?>row_hover<?php }?>"
 	<?php if (isset($_smarty_tpl->tpl_vars['tr']->value['color'])&&$_smarty_tpl->tpl_vars['color_on_bg']->value){?>style="background-color: <?php echo $_smarty_tpl->tpl_vars['tr']->value['color'];?>
 "<?php }?>
-	<?php if (isset($_smarty_tpl->tpl_vars['tr']->value['on_sale'])){?><?php if ($_smarty_tpl->tpl_vars['tr']->value['on_sale']){?>style="background-color: #FBB98C" title="<?php echo smartyTranslate(array('s'=>'Výpredaj'),$_smarty_tpl);?>
-"<?php }?><?php }?>
 	>
     
 		<td class="center">
@@ -264,13 +265,26 @@ $_smarty_tpl->tpl_vars['action']->_loop = true;
 <?php if ($_smarty_tpl->tpl_vars['table']->value=='order'){?>
 
 	<tr class="filter">
-        <td colspan="<?php if ($_smarty_tpl->tpl_vars['oz']->value){?>5<?php }else{ ?>6<?php }?>">&nbsp;&nbsp;&nbsp;<b>Suma</b></td>
+        <td colspan="<?php if ($_smarty_tpl->tpl_vars['oz']->value){?>5<?php }else{ ?>6<?php }?>">&nbsp;&nbsp;&nbsp;<b>Suma (strana)</b></td>
         <td class="right">
             <b><?php if ($_smarty_tpl->tpl_vars['mytotal2']->value){?><?php echo smarty_function_mycount(array('this'=>$_smarty_tpl->tpl_vars['mytotal2']->value),$_smarty_tpl);?>
 <?php }else{ ?>0,0<?php }?></b>
         </td>
         <td class="right">
             <b><?php if ($_smarty_tpl->tpl_vars['mytotal']->value){?><?php echo smarty_function_mycount(array('this'=>$_smarty_tpl->tpl_vars['mytotal']->value),$_smarty_tpl);?>
+<?php }else{ ?>0,0<?php }?></b>
+        </td>
+        <td colspan="7"></td>
+    </tr>
+
+	<tr class="filter">
+        <td colspan="<?php if ($_smarty_tpl->tpl_vars['oz']->value){?>5<?php }else{ ?>6<?php }?>">&nbsp;&nbsp;&nbsp;<b>Suma (celkom)</b></td>
+        <td class="right">
+            <b><?php if (isset($_smarty_tpl->tpl_vars['total5']->value)){?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('price'=>$_smarty_tpl->tpl_vars['total5']->value,'currency'=>$_smarty_tpl->tpl_vars['currency']->value->id),$_smarty_tpl);?>
+<?php }else{ ?>0,0<?php }?></b>
+        </td>
+        <td class="right">
+            <b><?php if (isset($_smarty_tpl->tpl_vars['total6']->value)){?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['displayPrice'][0][0]->displayPriceSmarty(array('price'=>$_smarty_tpl->tpl_vars['total6']->value,'currency'=>$_smarty_tpl->tpl_vars['currency']->value->id),$_smarty_tpl);?>
 <?php }else{ ?>0,0<?php }?></b>
         </td>
         <td colspan="7"></td>

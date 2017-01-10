@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2015-02-27 05:33:53
+<?php /* Smarty version Smarty-3.1.8, created on 2017-01-10 14:18:01
          compiled from "C:\wamp\www\shopadmin/themes/default\template\helpers\help_access\button.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:2185754eff3b17a8c16-85165612%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'fd2b30e5c02d689c2f63610314354559a61488ab' => 
     array (
       0 => 'C:\\wamp\\www\\shopadmin/themes/default\\template\\helpers\\help_access\\button.tpl',
-      1 => 1423781537,
+      1 => 1449845523,
       2 => 'file',
     ),
   ),
@@ -15,6 +15,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1.8',
+  'unifunc' => 'content_54eff3b182a741_89944899',
   'variables' => 
   array (
     'label' => 0,
@@ -27,8 +29,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'button_class' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_54eff3b182a741_89944899',
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_54eff3b182a741_89944899')) {function content_54eff3b182a741_89944899($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_escape')) include 'C:\\wamp\\www\\tools\\smarty\\plugins\\modifier.escape.php';
 ?><li class="help-context-<?php echo smarty_modifier_escape($_smarty_tpl->tpl_vars['label']->value, 'htmlall', 'UTF-8');?>

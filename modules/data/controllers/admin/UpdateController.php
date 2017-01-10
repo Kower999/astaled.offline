@@ -54,14 +54,7 @@ class UpdateController extends DataController
     
     public function checkrequirements(){
     }
-    
-    
-    public function xml($file)
-    {
-        return simplexml_load_string (file_get_contents(_PS_DOWNLOAD_DIR_.$file));             
-//        return simplexml_load_string (html_entity_decode(file_get_contents(_PS_DOWNLOAD_DIR_.$file),ENT_XML1 , "UTF-8"));             
-    }
-    
+            
     public function unlinkall(){
         foreach($this->files as $fname) {
             if(file_exists(_PS_DOWNLOAD_DIR_.$fname)){
@@ -82,7 +75,19 @@ class UpdateController extends DataController
             $fs = filesize(_PS_DOWNLOAD_DIR_.$fname);
         
             if(file_exists(_PS_DOWNLOAD_DIR_.$fname) && !empty($fs)){
-                $xml = $this->xml($fname);
+                $xml = DataController::readxmlfilefromdownloaddir($fname);
+
+                if(!DataController::isThisOnline()) {
+                    if($this->last_version == ''.$xml->queries->version){
+                        $this->errors[] = Tools::displayError('Už máte nainštalovanú najaktuálnejšiu verziu systému. Nieje potrebná ďaľšia aktualizácia. Posledná verzia je: '.$this->last_version);
+                        $this->unlinkall();
+                        return;                                
+                    }
+                    $this->errors[] = Tools::displayError('Toto je developerská verzia. Nieje možné použiť automatickú aktualizáciu. Verzia sa zmení z: '.$this->last_version. ' na verziu: '.$xml->queries->version. ' ale súbory neboli aktualizované!!!');
+                    Configuration::updateValue('LAST_UPDATE_VERSION', (empty($this->last_online_version) ? $this->getUpdateVersion() : $this->last_online_version ) );                                                                  
+                    $this->unlinkall();
+                    return;                    
+                }
 
                 if($this->last_version == ''.$xml->queries->version){
                     $this->errors[] = Tools::displayError('Už máte nainštalovanú najaktuálnejšiu verziu systému. Nieje potrebná ďaľšia aktualizácia. Posledná verzia je: '.$this->last_version);

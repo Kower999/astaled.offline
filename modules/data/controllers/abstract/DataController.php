@@ -24,11 +24,42 @@ abstract class DataController extends ModuleAdminController {
         if(empty($this->context->link))
             $this->context->link = new Link();  
             
-        $this->last_version = Configuration::get('LAST_UPDATE_VERSION');
+        $this->last_version = $this->getActualVersion();
 
         $this->isadmin = (Context::getContext()->employee->isLoggedBack() && !((Context::getContext()->employee->id_profile == 5) || (Context::getContext()->employee->id_profile == 6)));             
                            				
 	}
+
+    public static function readxmlfilefromdownloaddir($file)
+    {
+        return simplexml_load_string (file_get_contents(_PS_DOWNLOAD_DIR_.$file));             
+    }
+    
+    public function getActualVersion()
+    {
+        $lastver = (float)Configuration::get('LAST_UPDATE_VERSION');
+        $fname = 'update_db.xml';        
+        if(file_exists(_PS_DOWNLOAD_DIR_.$fname)){
+                $xml = DataController::readxmlfilefromdownloaddir($fname);
+
+                if(($lastver < (float)(''.$xml->queries->version)) && ($_REQUEST['controller'] != 'Update')){
+                    if(!DataController::isThisOnline()) {
+                        die("1");
+                        Tools::redirectAdmin($this->context->link->getAdminLink('Update') . "&presmerovanie=1&ver=".$lov);                        
+                    } else {
+                        die("2");
+                        Configuration::updateValue('LAST_UPDATE_VERSION', (empty($this->last_online_version) ? $this->getUpdateVersion() : $this->last_online_version ) );                                                                  
+                    }
+                }            
+        }
+            
+        return $lastver;                    
+    }
+    
+    public static function isThisOnline()
+    {
+        return !file_exists(_PS_ROOT_DIR_."/.gitignore");        
+    }    
     
     public static function defineDropbox()
     {
@@ -50,11 +81,17 @@ abstract class DataController extends ModuleAdminController {
             define('_DROPBOX_BACKUP_DIR_', $dumppath);
         }
     }
+    
+    public function needUpdate(){
+        if(empty($this->last_online_version)) $this->getUpdateVersion();
+    }
 
     public function getUpdateVersion(){
         $fname = 'update_db.xml';
 
-        unlink(_PS_DOWNLOAD_DIR_.$fname);
+        
+        if(file_exists(_PS_DOWNLOAD_DIR_.$fname))
+            unlink(_PS_DOWNLOAD_DIR_.$fname);
             
         file_put_contents(_PS_DOWNLOAD_DIR_.$fname, fopen(_ASTALED_ONLINE_ . '/download/updates/' . $fname, 'r'));
         $fs = filesize(_PS_DOWNLOAD_DIR_.$fname);

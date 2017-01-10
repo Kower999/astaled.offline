@@ -1,7 +1,6 @@
 <?php
 if(ENT_XML1 != 16) { define('ENT_XML1', 16); }
 
-define('_ASTALED_UPDATE_',              false);
 define('_ASTALED_ADMIN_MAIL_',          'kower99@gmail.com');
 if(_PS_MODE_DEV_) {
     define('_PS_ONLINE_MAIL_',          'kower99@gmail.com');        
@@ -39,3 +38,4 @@ define('_PS_WAMP_DIR_',                 realpath(_PS_ROOT_DIR_ . '/../bin/'));
 
 define('_PS_ONLINE_SQL_DOWNLOAD_',      _PS_ONLINE_DOWNLOAD_ . 'updates/sql_updates/');
 define('_PS_ONLINE_PHP_DOWNLOAD_',      _PS_ONLINE_DOWNLOAD_ . 'updates/onetime_php/');
+define('_ASTALED_UPDATE_',              file_exists(_PS_ROOT_DIR_."/.gitignore"));

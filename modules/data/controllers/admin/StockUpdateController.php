@@ -36,7 +36,7 @@ class StockUpdateController extends DataController
         $lov = $this->getUpdateVersion();
         
         if(!empty($lov)){
-            if(_ASTALED_UPDATE_)
+            if(DataController::isThisOnline())
                 if($lov != $this->last_version)
                     Tools::redirectAdmin($this->context->link->getAdminLink('Update') . "&presmerovanie=1&ver=".$lov);
         } else {
