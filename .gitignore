@@ -45,11 +45,6 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-cache/
 *.xls
 *.dat
-*.xml
-*.xml
 *.sql
-config/astaled.settings.inc.php
-config/astaled.settings.inc.php
