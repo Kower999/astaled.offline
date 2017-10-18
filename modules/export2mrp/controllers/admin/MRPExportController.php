@@ -210,6 +210,11 @@ class MRPExportController extends ModuleAdminController
 /* postovne a balne */
                     if((float)$order->total_shipping_tax_incl > 0) {
                         $dopravca = new Carrier($order->id_carrier,$id_lang);
+                        if(!$dopravca->active){
+                            if(!empty($dopravca->id_reference)){
+                                $dopravca = CarrierCore::getCarrierByReference($dopravca->id_reference);
+                            }
+                        }
                       
                         $x = (float)$order->total_shipping_tax_incl - (float)$order->total_shipping_tax_excl;
                         $pc++;
