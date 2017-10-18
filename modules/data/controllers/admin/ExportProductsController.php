@@ -79,12 +79,50 @@ $this->fields_form = array(
                 'group_lang' => array(),
                 'group_shop' => array(),
             );
-            
+
+            $carrier_table_list = array(
+                'carrier_group' => array(),
+                'carrier_lang' => array(),
+                'carrier_shop' => array(),
+                'carrier_tax_rules_group_shop' => array(),
+                'carrier_zone' => array(),
+            );
+                        
             $prefix = _DB_PREFIX_;
             
-            $cats = Category::getSimpleCategories($this->context->language->id);
-            $prds = Product::getSimpleProducts($this->context->language->id);
-            $grps = Group::getGroups($this->context->language->id);
+            $lang_id = $this->context->language->id;
+            $cats = Category::getSimpleCategories($lang_id);
+            $prds = Product::getSimpleProducts($lang_id);
+            $grps = Group::getGroups($lang_id);
+            $carriers = Carrrier::getCarriers($lang_id,false);
+
+            $to_export = array(
+                array(
+                    'table' => 'carrier',
+                    'identifier' => 'id_carrier',
+                    'values' => $carriers,
+                    'sub_table_list' => $carrier_table_list
+                ),
+                array(
+                    'table' => 'category',
+                    'identifier' => 'id_category',
+                    'values' => $cats,
+                    'sub_table_list' => $category_table_list
+                ),
+                array(
+                    'table' => 'product',
+                    'identifier' => 'id_product',
+                    'values' => $prds,
+                    'sub_table_list' => $product_table_list
+                ),
+                array(
+                    'table' => 'group',
+                    'identifier' => 'id_group',
+                    'values' => $grps,
+                    'sub_table_list' => $group_table_list
+                ),
+            );
+
             
             $zip = new ZipArchive();
             $file = "Export_products.zip";
@@ -100,7 +138,64 @@ $this->fields_form = array(
             $zip->open($zip_name,  ZipArchive::CREATE);
             $xml_array = array();
             
+                    foreach($to_export as $e){
+                        // vytvorenie zakladnych xml objektov 
+                        $table = $e['table'];
+                        $xml_array[$table] = new SimpleXmlElement("<xml version=\"1.0\" encoding=\"utf-8\" />");
+                        $xmlos[$table] = $xml_array[$table]->addChild($table.'s');
+                    
+                        foreach($e['sub_table_list'] as $ot => $subtables){
+                            $xml_array[$ot] = new SimpleXmlElement("<xml version=\"1.0\" encoding=\"utf-8\" />");
+                            $xmlos[$ot] = $xml_array[$ot]->addChild($ot.'s');
+                            if(!empty($subtables)){
+                                foreach($subtables as $st){
+                                    $xml_array[$st] = new SimpleXmlElement("<xml version=\"1.0\" encoding=\"utf-8\" />");
+                                    $xmlos[$st] = $xml_array[$st]->addChild($st.'s');                                    
+                                }
+                            }                                                                
+                        }
+                        // plnenie objektov 
+                        foreach($e['values'] as $r){
+                            $table = $e['table'];
+                            $order = Db::getInstance()->getRow("SELECT * FROM `".$prefix.$table."` WHERE ".$e['identifier']." = ".$r[$e['identifier']]);
+                            $this->addToXML($xmlos[$table],$order,$table);
+                        
+                            foreach($e['sub_table_list'] as $table => $subtables){                            
+                                $rows = Db::getInstance()->executeS("SELECT * FROM `".$prefix.$table."` WHERE ".$e['identifier']." = ".$r[$e['identifier']]);
+                                if(!empty($rows))
+                                    foreach($rows as $row){
+                                        $this->addToXML($xmlos[$table],$row,$table);                                    
+                                    }
+                        
+                            }
+                        }
+                        
+                        // vystup xml suborov do zipu 
+                        $table = $e['table'];
+                        $zip->addFromString($table.'.xml',$xml_array[$table]->asXML());
+                        foreach($e['sub_table_list'] as $table => $subtables){                            
+                            $zip->addFromString($table.'.xml',$xml_array[$table]->asXML());                        
+                        }                                                
+                        
+                        
+                    }
+/*                    
                     // vytvorenie zakladnych xml objektov 
+                    $table = 'carrier';
+                    $xml_array[$table] = new SimpleXmlElement("<xml version=\"1.0\" encoding=\"utf-8\" />");
+                    $xmlos[$table] = $xml_array[$table]->addChild($table.'s');
+                    
+                    foreach($carrier_table_list as $ot => $subtables){
+                            $xml_array[$ot] = new SimpleXmlElement("<xml version=\"1.0\" encoding=\"utf-8\" />");
+                            $xmlos[$ot] = $xml_array[$ot]->addChild($ot.'s');
+                            if(!empty($subtables)){
+                                foreach($subtables as $st){
+                                    $xml_array[$st] = new SimpleXmlElement("<xml version=\"1.0\" encoding=\"utf-8\" />");
+                                    $xmlos[$st] = $xml_array[$st]->addChild($st.'s');                                    
+                                }
+                            }                                                                
+                    }
+                              
                     $table = 'category';
                     $xml_array[$table] = new SimpleXmlElement("<xml version=\"1.0\" encoding=\"utf-8\" />");
                     $xmlos[$table] = $xml_array[$table]->addChild($table.'s');
@@ -147,6 +242,22 @@ $this->fields_form = array(
                     }          
                                   
                     // koniec vytvaranie zakl xml objektov 
+
+                    foreach($carriers as $r){
+                        $table = 'carrier';
+                        $order = Db::getInstance()->getRow("SELECT * FROM `".$prefix.$table."` WHERE id_carrier = ".$r['id_carrier']);
+                        $this->addToXML($xmlos[$table],$order,$table);
+                        
+                        foreach($carrier_table_list as $table => $subtables){                            
+                            $rows = Db::getInstance()->executeS("SELECT * FROM `".$prefix.$table."` WHERE id_carrier = ".$r['id_carrier']);
+                            if(!empty($rows))
+                                foreach($rows as $row){
+                                    $this->addToXML($xmlos[$table],$row,$table);                                    
+                                }
+                        
+                        }
+                    }
+                    
                     
                     foreach($cats as $r){
                         $table = 'category';
@@ -193,8 +304,12 @@ $this->fields_form = array(
                         }
                     }
                         
-                    
                     // vystup xml suborov do zipu 
+                    $table = 'carrier';
+                    $zip->addFromString($table.'.xml',$xml_array[$table]->asXML());
+                    foreach($category_table_list as $table => $subtables){                            
+                        $zip->addFromString($table.'.xml',$xml_array[$table]->asXML());                        
+                    }                                                
 
                     $table = 'category';
                     $zip->addFromString($table.'.xml',$xml_array[$table]->asXML());
@@ -215,6 +330,7 @@ $this->fields_form = array(
                     }                                                
                     
                     // koniec vystupu xml suborov do zipu 
+*/                    
                     
 
             $zip->close();

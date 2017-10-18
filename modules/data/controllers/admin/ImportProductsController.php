@@ -131,9 +131,17 @@ class ImportProductsController extends DataController
                 $this->errors[] = 'Error opening zip file ('.$res.')';
             }
             
+            $pole['carrier'] = $this->walkxml('carrier.xml','carriers', 'carrier','id_carrier', 'carrier'); 
             $pole['category'] = $this->walkxml('category.xml','categorys', 'category','id_category', 'category'); 
             $pole['product'] = $this->walkxml('product.xml','products', 'product','id_product', 'product');
             $pole['group'] = $this->walkxml('group.xml','groups', 'group','id_group', 'group');
+
+            $pole['carrier_group'] = $this->walkxml('carrier_group.xml','carrier_groups','carrier_group','id_carrier','carrier_group');
+            $pole['carrier_lang'] = $this->walkxml('carrier_lang.xml','carrier_langs','carrier_lang','id_carrier','carrier_lang');
+            $pole['carrier_shop'] = $this->walkxml('carrier_shop.xml','carrier_shops','carrier_shop','id_carrier','carrier_shop');
+            $pole['carrier_tax_rules_group_shop'] = $this->walkxml('carrier_tax_rules_group_shop.xml','carrier_tax_rules_group_shops','carrier_tax_rules_group_shop','id_carrier','carrier_tax_rules_group_shop');
+            $pole['carrier_zone'] = $this->walkxml('carrier_zone.xml','carrier_zones','carrier_zone','id_carrier','carrier_zone');
+
 
             $pole['group_lang'] = $this->walkxml('group_lang.xml','group_langs','group_lang','id_group','group_lang');
             $pole['group_shop'] = $this->walkxml('group_shop.xml','group_shops','group_shop','id_group','group_shop');
