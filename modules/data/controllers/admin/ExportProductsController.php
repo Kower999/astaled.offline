@@ -94,7 +94,7 @@ $this->fields_form = array(
             $cats = Category::getSimpleCategories($lang_id);
             $prds = Product::getSimpleProducts($lang_id);
             $grps = Group::getGroups($lang_id);
-            $carriers = Carrrier::getCarriers($lang_id,false);
+            $carriers = Carrier::getCarriers($lang_id,false);
 
             $to_export = array(
                 array(
