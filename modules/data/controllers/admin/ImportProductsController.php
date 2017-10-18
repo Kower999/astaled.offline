@@ -154,13 +154,18 @@ class ImportProductsController extends DataController
                     if(empty($sav)){
                         
                         Db::getInstance()->execute('REPLACE INTO new_stock_available ( id_product, id_product_attribute, id_shop, id_shop_group, quantity, depends_on_stock, out_of_stock)
-	                           SELECT id_product, 0 AS id_product_attribute, 1 AS id_shop, 0 AS id_shop_group, 0 AS quantity, 0 AS depends_on_stock, 2 AS out_of_stock
+	                           SELECT id_product, 0 AS id_product_attribute, 1 AS id_shop, 0 AS id_shop_group, 0 AS quantity, 0 AS depends_on_stock, 1 AS out_of_stock
 	                           FROM new_product WHERE id_product = '.$id);
                         Db::getInstance()->execute('REPLACE INTO new_warehouse_product_location ( id_product, id_product_attribute, id_warehouse, location)
 	                           SELECT id_product, 0 AS id_product_attribute, 1 AS id_warehouse, "" AS location
                                FROM new_product WHERE id_product = '.$id) ;                               
-                    }                    
+                    }/* else {
+                        Db::getInstance()->execute('REPLACE INTO new_stock_available ( id_product, id_product_attribute, id_shop, id_shop_group, depends_on_stock, out_of_stock)
+	                           SELECT id_product, 0 AS id_product_attribute, 1 AS id_shop, 0 AS id_shop_group, 0 AS depends_on_stock, 1 AS out_of_stock
+	                           FROM new_product WHERE id_product = '.$id);                        
+                    }  */                  
                 }
+              Db::getInstance()->execute('UPDATE new_stock_available SET out_of_stock = 1 WHERE 1');
 //            var_dump($pole['category_lang']);           
 
 			unlink(_PS_DOWNLOAD_DIR_.$fname);
