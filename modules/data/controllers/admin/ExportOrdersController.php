@@ -130,9 +130,11 @@ $this->fields_form = array(
         
         $cmrs = array();
         $orderdetails = array();
+        $ordercarriers = array();
         if(!empty($orders)){
             foreach($orders as $c){
                 $cc = new Order($c);
+                $carrier = new Carrier($cc->id_carrier);
 //                var_dump($cc);
                 $c2 = array();
                 foreach(Order::$definition['fields'] as $field => $defs){
@@ -143,6 +145,8 @@ $this->fields_form = array(
                     */
                 } 
                 $c2['id_order'] = $c;
+                $c2['id_carrier_reference'] = (int)$carrier->id_reference;
+                $c2['carrier_name'] = $carrier->name;
                 
                 $cmrs[] = $c2; 
           		$query = '
@@ -162,11 +166,20 @@ $this->fields_form = array(
                             $orderdetails_tax[(int)$od['id_order_detail']] = $result;                        
                     }                    
                 }
+
+          		$query = '
+			         SELECT *
+			         FROM `'._DB_PREFIX_.'order_carrier`
+			         WHERE id_order = '.(int)$c;
+                $result = Db::getInstance()->executeS($query);
+                if(!empty($result)) {
+                    $ordercarriers[(int)$c] = $result;
+                }
                     
             }
         }
         
-        $orders = serialize(array('employee' => $this->employee, 'data' => $cmrs, 'orderdetails' => $orderdetails, 'orderdetails_tax' => $orderdetails_tax));
+        $orders = serialize(array('employee' => $this->employee, 'data' => $cmrs, 'orderdetails' => $orderdetails, 'orderdetails_tax' => $orderdetails_tax, 'ordercarriers' => $ordercarriers));
                
         $file = _PS_ORDERS_DATA_;
         $handle = fopen($file,'wb');

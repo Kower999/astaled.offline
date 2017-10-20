@@ -212,7 +212,7 @@ class MRPExportController extends ModuleAdminController
                         $dopravca = new Carrier($order->id_carrier,$id_lang);
                         if(!$dopravca->active){
                             if(!empty($dopravca->id_reference)){
-                                $dopravca = CarrierCore::getCarrierByReference($dopravca->id_reference);
+                                $dopravca = Carrier::getCarrierByReference($dopravca->id_reference);
                             }
                         }
                       

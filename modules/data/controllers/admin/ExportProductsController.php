@@ -49,6 +49,10 @@ $this->fields_form = array(
     }
 
     private function addToXML(&$xml_obj,$result,$element){
+/*        if($element == 'carrier') {
+            mydump($result);
+        }
+*/        
         $keys = array_keys($result);
         $xml = $xml_obj->addChild($element);
         foreach($keys as $key){
@@ -81,11 +85,12 @@ $this->fields_form = array(
             );
 
             $carrier_table_list = array(
-                'carrier_group' => array(),
+/*                'carrier_group' => array(),
                 'carrier_lang' => array(),
                 'carrier_shop' => array(),
                 'carrier_tax_rules_group_shop' => array(),
                 'carrier_zone' => array(),
+*/                
             );
                         
             $prefix = _DB_PREFIX_;
@@ -94,7 +99,16 @@ $this->fields_form = array(
             $cats = Category::getSimpleCategories($lang_id);
             $prds = Product::getSimpleProducts($lang_id);
             $grps = Group::getGroups($lang_id);
-            $carriers = Carrier::getCarriers($lang_id,false);
+            $carriers = Carrier::getCarriers($lang_id,true);
+            
+            if(!empty($carriers)) {
+                foreach($carriers as $key => $carrier){
+                    $carriers[$key]['base_id'] = $this->getCarrierIdentifier($carrier['id_carrier']);
+                }
+            }
+
+//            mydump($carriers,false);
+//            $this->getCarrierIdentifier(11);
 
             $to_export = array(
                 array(
@@ -158,15 +172,21 @@ $this->fields_form = array(
                         foreach($e['values'] as $r){
                             $table = $e['table'];
                             $order = Db::getInstance()->getRow("SELECT * FROM `".$prefix.$table."` WHERE ".$e['identifier']." = ".$r[$e['identifier']]);
+                            if($table == 'carrier'){
+                                $order['base_id'] = $r['base_id'];
+                                $carrier = new Carrier((int)$r['id_carrier']);
+                                $order['delay'] = base64_encode(json_encode($carrier->delay));
+//                                mydump($carrier->delay);
+                            }
                             $this->addToXML($xmlos[$table],$order,$table);
-                        
-                            foreach($e['sub_table_list'] as $table => $subtables){                            
-                                $rows = Db::getInstance()->executeS("SELECT * FROM `".$prefix.$table."` WHERE ".$e['identifier']." = ".$r[$e['identifier']]);
-                                if(!empty($rows))
-                                    foreach($rows as $row){
-                                        $this->addToXML($xmlos[$table],$row,$table);                                    
-                                    }
-                        
+                            if(!empty($e['sub_table_list'])){
+                                foreach($e['sub_table_list'] as $table => $subtables){                            
+                                    $rows = Db::getInstance()->executeS("SELECT * FROM `".$prefix.$table."` WHERE ".$e['identifier']." = ".$r[$e['identifier']]);
+                                    if(!empty($rows))
+                                        foreach($rows as $row){
+                                            $this->addToXML($xmlos[$table],$row,$table);                                    
+                                        }                        
+                                }
                             }
                         }
                         

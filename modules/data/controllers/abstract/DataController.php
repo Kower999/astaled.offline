@@ -56,6 +56,62 @@ abstract class DataController extends ModuleAdminController {
         return $lastver;                    
     }
     
+    public function getCarrierIdentifier($id_carrier){
+        $carrier = new Carrier((int)$id_carrier);
+        if(empty($carrier))
+            return false;
+        
+        $deliveries = Db::getInstance()->executeS("SELECT d.id_zone, d.price, rp.delimiter1 as delimiter1_price, rp.delimiter2 as delimiter2_price, rw.delimiter1 as delimiter1_weight, rw.delimiter2 as delimiter2_weight,
+            d.id_shop, d.id_shop_group 
+            FROM `"._DB_PREFIX_."delivery` d 
+            LEFT JOIN  `"._DB_PREFIX_."range_price` rp ON ( rp.id_carrier = d.id_carrier AND rp.id_range_price = d.id_range_price )
+            LEFT JOIN `"._DB_PREFIX_."range_weight` rw ON ( rw.id_carrier = d.id_carrier AND rw.id_range_weight = d.id_range_weight )
+            WHERE d.id_carrier = ".$id_carrier."
+            ORDER BY rp.delimiter1 ASC, rp.delimiter2 ASC, rw.delimiter1 ASC, rw.delimiter2 ASC
+            ");
+
+                        // Copy existing zones
+        $zones = Db::getInstance()->executeS('
+            SELECT id_zone
+            FROM `'._DB_PREFIX_.'carrier_zone`
+            WHERE id_carrier = '.((int)$id_carrier).'
+            ORDER BY id_zone');
+            
+        $groups = Db::getInstance()->executeS('
+            SELECT id_group
+            FROM '._DB_PREFIX_.'carrier_group
+            WHERE id_carrier='.((int)$id_carrier).'
+            ORDER BY id_group');            
+
+        if(!empty($carrier)) {
+            return $this->getCarrierBaseID($carrier->name, $carrier->is_free, $deliveries, $zones, $groups);
+        }
+        return $this->getCarrierBaseID('', 0, $deliveries, $zones, $groups);
+    }
+    
+    public function getCarrierBaseID($name, $is_free, $deliveries = array(), $zones = array(), $groups = array()){
+        $ret = array(
+            'name' => $name,
+            'is_free' => (int)$is_free,
+            'deliveries' => $deliveries,
+            'zones' => $zones,                        
+            'groups' => $groups,                        
+        );
+        
+        return base64_encode(json_encode($ret));        
+    }
+
+    public function getCarrierByName($name){
+		$id_carrier = Db::getInstance()->getValue('SELECT `id_carrier` FROM `'._DB_PREFIX_.'carrier`
+			WHERE name = "'.$name.'" AND deleted = 0 AND active = 1 ORDER BY id_carrier DESC');
+		if (!$id_carrier)
+			return false;
+            
+        $c = new Carrier($id_carrier);
+        $c->base_id = $this->getCarrierIdentifier($id_carrier);
+		return $c;
+    }
+    
     public static function isThisOnline()
     {
         return !file_exists(_PS_ROOT_DIR_."/.gitignore");        

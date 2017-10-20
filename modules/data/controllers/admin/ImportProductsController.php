@@ -78,6 +78,217 @@ class ImportProductsController extends DataController
             return $ret;
         
     }
+
+    public function walkxmlcarrier($file, $parent, $child, $pri_key, $table) 
+    {
+            $xml = $this->xml(_PS_UPLOAD_DIR_.'/import_tmp/'.$file);
+            $ret = array();            
+            
+//            Db::getInstance()->execute('TRUNCATE '._DB_PREFIX_.$table);
+            
+            foreach($xml->{$parent}->{$child} as $c)
+            {
+                $row = array();
+                foreach($c as $field) {
+                    $row[$field->getName()] = ''.$field;
+                }
+                $ret[$row[$pri_key]] = $row;
+                
+                $carrier_base_id = $row['base_id']; // base_id zo serveru
+                
+                $carrier = $this->getCarrierByName($row['name']);
+                
+                $create_new_carrier = false;
+                $carrier_found = false;
+                if(!empty($carrier) && !empty($carrier->id) && !empty($carrier_base_id) && !empty($carrier->base_id)){
+                    if($carrier_base_id != $carrier->base_id){
+                        // dopravca sa nasiel ale nezhoduje sa s online takze musime spravit upravu dopravcu
+                        
+                        $create_new_carrier = true;
+/*
+                        mydump($carrier_base_id,false,'base_id zo serveru:');
+                        $cbi= $this->getCarrierIdentifier($new_carrier->id);
+                        mydump($cbi,false,'base_id noveho:');
+
+                        mydump(($cbi == $carrier_base_id),false,'porovnanie:');
+
+                        $ncdata = json_decode(base64_decode($cbi));
+
+                        mydump($new_carrier_data,false,'data zo serveru:');
+                        mydump($ncdata,false,'data nove:');
+                        
+                        
+                        die('novy carrier');
+*/
+                        // vytvorenie kopie a zmena udajov podla online hotove
+                        
+/*                        
+                        mydump($new_carrier,false,"new carrier:");
+                        mydump($carrier,false,"carrier found by name:");
+                        mydump($row,false,"carrier from server:");
+
+                        mydump($new_carrier_data,false, 'newdata:');
+                        mydump($carrier_base_id,false, 'carrier_base_id:');
+                        
+                        die('carriers found and not same');
+*/                        
+                    } else {
+                        // nasla sa uplna zhoda dopravcu cien aj rozsahov tu neriesime nic
+                    }
+                    $carrier_found = true;                    
+                } else {
+                    $create_new_carrier = true;
+/*                    mydump($row,false,"carrier from server:");
+                    mydump($carrier,false,"carrier found by name:");
+                    die('carriers or match not found');
+*/                    
+                }
+
+                if($create_new_carrier) {
+//                        mydump($row,false,'row:');
+//                        mydump(,true,'row:');
+                        $delays = json_decode(base64_decode($row['delay']));
+                        $new_delays = array();
+                        if(!empty($delays)){
+                            foreach($delays as $key => $delay){
+                                $new_delays[$key] = $delay;
+                            }
+                        }
+                        // najprv vytvorit noveho dopravcu potom dat prikaz na skopirovanie dat zo stareho a tie potom upravime podla novych dat
+                        $new_carrier = new Carrier();
+                        $fields = array_keys(Carrier::$definition['fields']);
+                        if(!empty($fields)){
+                            foreach($fields as $field){
+                                if($field != 'delay') {
+                                    $new_carrier->{$field} = $row[$field];                                    
+                                } else {
+                                    $new_carrier->{$field} = $new_delays;
+                                }
+                            }
+                        }
+                        $new_carrier->add();
+//                        mydump($new_carrier);
+                        
+//                        $new_carrier->copyCarrierData($carrier->id);// skopirovanie dat zo stareho
+// copyCarrierData
+                        if($carrier_found){
+                            $old_id = $carrier->id;
+
+                            $old_logo = _PS_SHIP_IMG_DIR_.'/'.(int)$old_id.'.jpg';
+                            if (file_exists($old_logo))
+                                copy($old_logo, _PS_SHIP_IMG_DIR_.'/'.(int)$new_carrier->id.'.jpg');
+
+                            $old_tmp_logo = _PS_TMP_IMG_DIR_.'/carrier_mini_'.(int)$old_id.'.jpg';
+                            if (file_exists($old_tmp_logo))
+                            {
+                                if (!isset($_FILES['logo']))
+                                    copy($old_tmp_logo, _PS_TMP_IMG_DIR_.'/carrier_mini_'.$new_carrier->id.'.jpg');
+                                unlink($old_tmp_logo);
+                            }                            
+                            //Copy default carrier
+                            if (Configuration::get('PS_CARRIER_DEFAULT') == $old_id)
+                                Configuration::updateValue('PS_CARRIER_DEFAULT', (int)$new_carrier->id);
+
+                            // Copy reference
+                            Db::getInstance()->execute('
+                                UPDATE `'._DB_PREFIX_.'carrier`
+                                SET `id_reference` = '.(int)$carrier->id_reference.'
+                                WHERE `id_carrier` = '.(int)$new_carrier->id);
+
+                            // Copy tax rules group
+                            Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'carrier_tax_rules_group_shop` (`id_carrier`, `id_tax_rules_group`, `id_shop`)
+                                (SELECT '.(int)$new_carrier->id.', `id_tax_rules_group`, `id_shop`
+                                FROM `'._DB_PREFIX_.'carrier_tax_rules_group_shop`
+                                WHERE `id_carrier`='.(int)$old_id.')');
+                            // Update warehouse_carriers
+                            Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'warehouse_carrier SET id_carrier='.(int)$new_carrier->id.' WHERE id_carrier='.(int)$old_id);
+                        
+                            $carrier->active = false;
+                            $carrier->deleted = true;
+                            if(empty($carrier->delay))
+                                mydump($carrier);
+                            $carrier->update();                            
+                        }
+
+                        $new_carrier_data = json_decode(base64_decode($carrier_base_id));
+        
+//                        mydump($new_carrier_data,true, 'newdata:');
+        
+                        if(!empty($new_carrier_data)){
+                            if(!empty($new_carrier_data->deliveries)) {
+                                foreach($new_carrier_data->deliveries as $delivery_range){
+                                    if(!is_null($delivery_range->delimiter1_weight) && !is_null($delivery_range->delimiter2_weight) ) {
+                                        $range =  'range_weight';                         
+                                    }
+                                    if(!is_null($delivery_range->delimiter1_price) && !is_null($delivery_range->delimiter2_price) ) {
+                                        $range =  'range_price';                         
+                                    }
+                    
+                                    $range_part = str_replace('range_','',$range);
+                    
+                                    
+			                        $sql = 'SELECT r.`id_'.$range.'`
+					                   FROM `'._DB_PREFIX_.$range.'` r
+					                   WHERE r.`id_carrier` = '.(int)$new_carrier->id.'
+						                  AND r.`delimiter1` = '.(float)$delivery_range->{'delimiter1_'.$range_part}.'  
+						                  AND r.`delimiter2` = '.(float)$delivery_range->{'delimiter2_'.$range_part}.'  
+					                   ORDER BY r.`delimiter1` ASC';
+			                        $range_id = (int)Db::getInstance(_PS_USE_SQL_SLAVE_)->getValue($sql);
+                                    
+                                    if(empty($range_id)) {
+                                        Db::getInstance()->execute(' INSERT INTO `'._DB_PREFIX_.$range.'` (`id_carrier`, `delimiter1`, `delimiter2`)
+                                            VALUES ('.$new_carrier->id.',' . (float)$delivery_range->{'delimiter1_'.$range_part} . ',' . (float)$delivery_range->{'delimiter2_'.$range_part} . ')');
+                                        $range_id = (int)Db::getInstance()->Insert_ID();                                        
+                                    }
+
+                                    $range_price_id = ($range == 'range_price') ? $range_id : 'NULL';
+                                    $range_weight_id = ($range == 'range_weight') ? $range_id : 'NULL';
+//mydump($delivery_range);
+                                    Db::getInstance()->execute('
+                                        INSERT INTO `'._DB_PREFIX_.'delivery` (`id_carrier`, `id_shop`, `id_shop_group`, `id_range_price`, `id_range_weight`, `id_zone`, `price`) VALUES (
+                                            '.(int)$new_carrier->id.', 
+                                            '. (empty($delivery_range->id_shop) ? 'NULL' : $delivery_range->id_shop) .',
+                                            '. (empty($delivery_range->id_shop_group) ? 'NULL' : $delivery_range->id_shop_group) .',
+                                            '.(int)$range_price_id.',
+                                            '.(int)$range_weight_id.',
+                                            '. (empty($delivery_range->id_zone) ? 'NULL' : $delivery_range->id_zone) .',
+                                            '.(float)$delivery_range->price.'
+                                        )
+                                    ');                    
+                                }
+                            }
+                            
+                            // Copy existing zones from data from server
+                            if(!empty($new_carrier_data->zones)) {
+                                foreach($new_carrier_data->zones as $zone){
+                                    Db::getInstance()->execute('
+                                        INSERT INTO `'._DB_PREFIX_.'carrier_zone` (`id_carrier`, `id_zone`)
+                                        VALUES ('.$new_carrier->id.','.(int)$zone->id_zone.')
+                                    ');
+                                }
+                            }
+
+                            // skopirovanie prav pre skupiny pre noveho dopravcu  z dat zo serveru
+                            $datatowrite = array();
+                            if(!empty($new_carrier_data->groups)) {
+                                foreach($new_carrier_data->groups as $group){
+                                    $datatowrite[] = array(
+                                        'id_carrier' => $new_carrier->id,
+                                        'id_group' => $group->id_group,
+                                    );                                
+                                }
+                            }
+                            if(!empty($datatowrite)){
+                                Db::getInstance()->insert('carrier_group', $datatowrite, false, false, Db::INSERT);                            
+                            }
+                        } // if(!empty($new_carrier_data)){
+                        // koniec copyCarrierData
+                }
+            }
+//            die("all carriers checked");
+            return $ret;
+        
+    }
 	
 	public function postProcess() {
 	   
@@ -131,17 +342,19 @@ class ImportProductsController extends DataController
                 $this->errors[] = 'Error opening zip file ('.$res.')';
             }
             
-            $pole['carrier'] = $this->walkxml('carrier.xml','carriers', 'carrier','id_carrier', 'carrier'); 
+            $pole['carrier'] = $this->walkxmlcarrier('carrier.xml','carriers', 'carrier','id_carrier', 'carrier'); 
+
             $pole['category'] = $this->walkxml('category.xml','categorys', 'category','id_category', 'category'); 
             $pole['product'] = $this->walkxml('product.xml','products', 'product','id_product', 'product');
             $pole['group'] = $this->walkxml('group.xml','groups', 'group','id_group', 'group');
 
+/*
             $pole['carrier_group'] = $this->walkxml('carrier_group.xml','carrier_groups','carrier_group','id_carrier','carrier_group');
             $pole['carrier_lang'] = $this->walkxml('carrier_lang.xml','carrier_langs','carrier_lang','id_carrier','carrier_lang');
             $pole['carrier_shop'] = $this->walkxml('carrier_shop.xml','carrier_shops','carrier_shop','id_carrier','carrier_shop');
             $pole['carrier_tax_rules_group_shop'] = $this->walkxml('carrier_tax_rules_group_shop.xml','carrier_tax_rules_group_shops','carrier_tax_rules_group_shop','id_carrier','carrier_tax_rules_group_shop');
             $pole['carrier_zone'] = $this->walkxml('carrier_zone.xml','carrier_zones','carrier_zone','id_carrier','carrier_zone');
-
+*/
 
             $pole['group_lang'] = $this->walkxml('group_lang.xml','group_langs','group_lang','id_group','group_lang');
             $pole['group_shop'] = $this->walkxml('group_shop.xml','group_shops','group_shop','id_group','group_shop');
@@ -192,5 +405,5 @@ class ImportProductsController extends DataController
 
     function decode_array(&$item1, $key)
     {
-        $item1 = html_entity_decode($item1);
+        $item1 = pSQL(html_entity_decode($item1));
     }    

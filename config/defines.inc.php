@@ -164,3 +164,14 @@ define('_PS_SMARTY_CONSOLE_OPEN_', 2);
 
 define('_PS_JQUERY_VERSION_', '1.7.2');
 
+
+function mydump($var, $die = true, $message = ""){
+    if(!empty($message)){
+        echo "<h1>".$message."</h1>";
+    }
+    echo "<pre>";
+    var_dump($var);
+    echo "</pre>";
+    if($die)
+        die('mydump END');
+}
