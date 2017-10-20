@@ -208,6 +208,14 @@ class ImportProductsController extends DataController
                             if(empty($carrier->delay))
                                 mydump($carrier);
                             $carrier->update();                            
+                        } else {
+                            $new_carrier->id_reference = $new_carrier->id;
+                            $new_carrier->update();
+                            if($new_carrier->name == "Osobný odber") {
+                                if ((int)Configuration::get('PS_CARRIER_DEFAULT') != (int)$new_carrier->id)
+                                    Configuration::updateValue('PS_CARRIER_DEFAULT', (int)$new_carrier->id);
+                                Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'warehouse_carrier SET id_carrier='.(int)$new_carrier->id.' WHERE 1');
+                            }                            
                         }
 
                         $new_carrier_data = json_decode(base64_decode($carrier_base_id));
