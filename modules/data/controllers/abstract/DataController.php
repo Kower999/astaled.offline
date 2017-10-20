@@ -83,19 +83,26 @@ abstract class DataController extends ModuleAdminController {
             WHERE id_carrier='.((int)$id_carrier).'
             ORDER BY id_group');            
 
+        $tax_rules_groups = Db::getInstance()->executeS('
+            SELECT `id_tax_rules_group`, `id_shop`
+            FROM '._DB_PREFIX_.'carrier_tax_rules_group_shop
+            WHERE id_carrier='.((int)$id_carrier).'
+            ORDER BY id_tax_rules_group');            
+
         if(!empty($carrier)) {
-            return $this->getCarrierBaseID($carrier->name, $carrier->is_free, $deliveries, $zones, $groups);
+            return $this->getCarrierBaseID($carrier->name, $carrier->is_free, $deliveries, $zones, $groups, $tax_rules_groups);
         }
-        return $this->getCarrierBaseID('', 0, $deliveries, $zones, $groups);
+        return $this->getCarrierBaseID('', 0, $deliveries, $zones, $groups, $tax_rules_groups);
     }
     
-    public function getCarrierBaseID($name, $is_free, $deliveries = array(), $zones = array(), $groups = array()){
+    public function getCarrierBaseID($name, $is_free, $deliveries = array(), $zones = array(), $groups = array(), $tax_rules_groups = array()){
         $ret = array(
             'name' => $name,
             'is_free' => (int)$is_free,
             'deliveries' => $deliveries,
             'zones' => $zones,                        
-            'groups' => $groups,                        
+            'groups' => $groups,
+            'tax_rules_groups' => $tax_rules_groups,                        
         );
         
         return base64_encode(json_encode($ret));        

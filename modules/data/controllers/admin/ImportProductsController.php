@@ -195,11 +195,6 @@ class ImportProductsController extends DataController
                                 SET `id_reference` = '.(int)$carrier->id_reference.'
                                 WHERE `id_carrier` = '.(int)$new_carrier->id);
 
-                            // Copy tax rules group
-                            Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'carrier_tax_rules_group_shop` (`id_carrier`, `id_tax_rules_group`, `id_shop`)
-                                (SELECT '.(int)$new_carrier->id.', `id_tax_rules_group`, `id_shop`
-                                FROM `'._DB_PREFIX_.'carrier_tax_rules_group_shop`
-                                WHERE `id_carrier`='.(int)$old_id.')');
                             // Update warehouse_carriers
                             Db::getInstance()->execute('UPDATE '._DB_PREFIX_.'warehouse_carrier SET id_carrier='.(int)$new_carrier->id.' WHERE id_carrier='.(int)$old_id);
                         
@@ -266,7 +261,7 @@ class ImportProductsController extends DataController
                                 }
                             }
                             
-                            // Copy existing zones from data from server
+                            // create existing zones from data from server
                             if(!empty($new_carrier_data->zones)) {
                                 foreach($new_carrier_data->zones as $zone){
                                     Db::getInstance()->execute('
@@ -289,6 +284,18 @@ class ImportProductsController extends DataController
                             if(!empty($datatowrite)){
                                 Db::getInstance()->insert('carrier_group', $datatowrite, false, false, Db::INSERT);                            
                             }
+                            
+                            // create tax rules group
+                            if(!empty($new_carrier_data->tax_rules_groups)) {
+                                foreach($new_carrier_data->tax_rules_groups as $tax_rules_group){
+                                    Db::getInstance()->execute('INSERT INTO `'._DB_PREFIX_.'carrier_tax_rules_group_shop` (`id_carrier`, `id_tax_rules_group`, `id_shop`) VALUES (
+                                        '.(int)$new_carrier->id.',
+                                        '.(int)$tax_rules_group->id_tax_rules_group.',
+                                        '.(int)$tax_rules_group->id_shop.'
+                                    )');
+                                }
+                            }
+
                         } // if(!empty($new_carrier_data)){
                         // koniec copyCarrierData
                 }
